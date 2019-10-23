@@ -6,3 +6,6 @@ class Brain:
 
     def think(self, stdin_input):
         return "MOVE LEFT"
+
+    def reset(self):
+        self.one_variable = 0
