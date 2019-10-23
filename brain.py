@@ -5,18 +5,18 @@ DRAW = "Draw!"
 
 class Brain:
     def __init__(self):
-        self.one_variable = 42
+        self.map_size = 42
 
     def think(self, stdin_input):
         print(stdin_input)
-        if (stdin_input[0] == "START"):
+        if stdin_input[0] == "START":
             self.map_size = int(stdin_input[1])
-            return "OK - everything is good"
+            return "OK"
         else:
-            return "ERROR unknown command"
+            return "ERROR"
         
     def reset(self):
-        self.one_variable = 0
+        self.map_size = 0
 
     def _solve(self, board):
         static_eval = self._get_static_eval(board)

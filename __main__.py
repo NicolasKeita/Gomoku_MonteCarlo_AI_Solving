@@ -34,9 +34,12 @@ def main():
             stdin_input = queue.get()
             if stdin_input[0] == "END":
                 break
-            decision = b.think(stdin_input)
+            try:
+                decision = b.think(stdin_input)
+            except ValueError:
+                return 84
             print(decision, end="\r\n")
 
 
 if __name__ == "__main__":
-    main()
+    exit(main())
