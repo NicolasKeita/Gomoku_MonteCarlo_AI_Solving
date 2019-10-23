@@ -25,6 +25,7 @@ def get_input(queue):
 
 
 def main():
+    b = Brain()
     queue = Queue()
     x = Thread(target=get_input, args=(queue,), daemon=True)
     x.start()
@@ -33,7 +34,7 @@ def main():
             stdin_input = queue.get()
             if stdin_input[0] == "END":
                 break
-            decision = Brain.think(stdin_input)
+            decision = b.think(stdin_input)
             print(decision, end="\r\n")
 
 
