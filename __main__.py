@@ -36,8 +36,9 @@ def main():
                 break
             try:
                 decision = b.think(stdin_input)
-            except ValueError:
-                return 84
+            except (ValueError, IndexError):
+                print("ERROR", end="\r\n")
+                continue
             print(decision, end="\r\n")
 
 
