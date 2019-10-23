@@ -1,5 +1,5 @@
 from queue import Queue
-from threading import Thread
+import numpy as np
 
 X_WINS = "X_wins!"
 O_WINS = "O_wins!"
@@ -28,6 +28,7 @@ class Brain:
         if stdin_input[0] == "START":
             self.map_size = int(stdin_input[1])
             self._create_board_()
+            print(self._get_static_eval(self.board))
             return "OK"
         elif stdin_input[0] == "TURN":
             opp_x = int(stdin_input[1])
@@ -76,17 +77,55 @@ class Brain:
             return matrix
 
     def _get_static_eval(self, board):
-        board_tmp = [[1, 4, 4], [1, 4, 4], [1, 4, 2], [1, 2, 1], [1, 5, 10]]
-        # Test row
-        board_unique = set(self._tuples(board_tmp))
-        #        for char in
-        for char in board_unique:
-            pass
+        board_tmp = [[1, 4, 4, 5, 9],
+                     [1, 4, 4, 5, 9],
+                     [1, 4, 2, 1, 1],
+                     [1, 2, 1, 59, 10],
+                     [1, 5, 10, 4, 65],
+                     [1, 10, 20, 30, 40, 50]]
+        board_tmp = list(set(self._tuples(board_tmp)))
 
-        # potential_wins = list(potential_wins)
-        # print(potential_wins)
+        result = self._test_rows(board_tmp.copy())
+        if result != DRAW:
+            return result
+        result = self._test_columns(board_tmp.copy())
+        if result != DRAW:
+            return result
+        result = self._test_diagonals(board_tmp.copy())
+        return result
 
-        return X_WINS
+    def _test_diagonals(self, board):
+        return DRAW
+
+    def _test_columns(self, board):
+        board = np.matrix(board).T
+        #print("BEFORE TRANSPOSE")
+        #print(board)
+        #board = np.transpose(board)
+        #print("APTRES")
+        #print(board)
+        return self._test_rows(board)
+
+    def _test_rows(self, board):
+        print(board)
+        print("END")
+        counter_X = 0
+        counter_O = 0
+        for row_board in board:
+            for char in row_board:
+                if char == "X":
+                    counter_X += 1
+                else:
+                    counter_X = 0
+                if char == "O":
+                    counter_O += 1
+                else:
+                    counter_O = 0
+                if counter_X == 5:
+                    return X_WINS
+                elif counter_O == 5:
+                    return O_WINS
+        return DRAW
 
     def _get_all_possible_next_moves(self, board):
         return [board, board]  # TODO
