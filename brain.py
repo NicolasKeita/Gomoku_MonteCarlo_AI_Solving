@@ -85,8 +85,15 @@ class Brain:
             return O_WINS
 
     def _is_full(self, board):
-        # TODO
-        return False
+        for i in range(0, self.map_size):
+            for j in range(0, self.map_size):
+                if (board[i][j] == ' '):
+                    return False
+                j += 1
+            i += 1
+        
+        return True        
+
 
     def _tuples(self, matrix):
         try:
