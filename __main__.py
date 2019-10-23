@@ -37,9 +37,9 @@ def main():
             try:
                 decision = b.think(stdin_input)
             except (ValueError, IndexError):
-                print("ERROR", end="\r\n")
-                continue
-            print(decision, end="\r\n")
+                decision = "ERROR"
+            finally:
+                print(decision, end="\r\n")
 
 
 if __name__ == "__main__":
