@@ -5,7 +5,12 @@ class Brain:
         self.one_variable = 42
 
     def think(self, stdin_input):
-        return "MOVE LEFT"
-
+        print(stdin_input)
+        if (stdin_input[0] == "START"):
+            self.map_size = int(stdin_input[1])
+            return "OK - everything is good"
+        else:
+            return "ERROR unknown command"
+        
     def reset(self):
         self.one_variable = 0
