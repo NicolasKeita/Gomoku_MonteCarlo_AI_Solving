@@ -6,6 +6,7 @@ DRAW = "Draw!"
 class Brain:
     def __init__(self):
         self.map_size = 0
+        self.board = []
 
     def think(self, stdin_input):
         if stdin_input[0] == "START":
@@ -13,7 +14,7 @@ class Brain:
             return "OK"
         else:
             return "ERROR"
-        
+
     def reset(self):
         self.map_size = 0
 
@@ -36,8 +37,23 @@ class Brain:
         #TODO
         return False
 
+    def _tuples(self, matrix):
+        try:
+            return tuple(self._tuples(a) for a in matrix)
+        except TypeError:
+            return matrix
+
     def _get_static_eval(self, board):
-        # TODO
+        board_tmp = [[1, 4, 4], [1, 4, 4], [1, 4, 2], [1, 2, 1], [1, 5, 10]]
+        # Test row
+        board_unique = set(self._tuples(board_tmp))
+#        for char in
+        for char in board_unique:
+            pass
+
+        # potential_wins = list(potential_wins)
+        # print(potential_wins)
+
         return X_WINS
 
     def _get_all_possible_next_moves(self, board):
