@@ -10,6 +10,7 @@ class Brain:
     def __init__(self):
         self.map_size = 0
         self.board = []
+        self.in_board = False
 
     def _create_board_(self):
         add = []
@@ -45,8 +46,48 @@ class Brain:
         elif stdin_input[0] == "ABOUT":
             print('name="EPIC BRAIN", version = "1.0", authors="Nicolas Keita" and "Warren OConnor", country="France"')
             return "ABOUT"
+
+    def _board_fill_(self, stdin_input):
+        if (stdin_input[0] == "DONE"):
+            self.in_board = False
+            return "DONE"
         else:
-            return "ERROR"
+            input = stdin_input[0].split(',')
+            if int(input[2]) == 1:
+                self.board[int(input[0])][int(input[1])] = 'O'
+                print(self.board)
+                return ("1010")
+            elif int(input[2]) == 2:
+                self.board[int(input[0])][int(input[1])] = 'X'
+                print(self.board)
+                return ("1111")
+
+    def think(self, stdin_input):
+        if self.in_board == False:
+            if stdin_input[0] == "START":
+                self.map_size = int(stdin_input[1])
+                self._create_board_()
+                return "OK"
+            elif stdin_input[0] == "TURN":
+                opp_x = int(stdin_input[1])
+                opp_y = int(stdin_input[2])
+                self._add_X_(opp_x, opp_y)
+                return "TURN"
+            elif stdin_input[0] == "BEGIN":
+                return "BEGIN"
+            elif stdin_input[0] == "BOARD":
+                self.in_board = True
+                return "BOARD"
+            elif stdin_input[0] == "END":
+                return "END"
+            elif stdin_input[0] == "ABOUT":
+                print(
+                    'name="EPIC BRAIN", version = "1.0", authors="Nicolas Keita" and "Warren OConnor", country="France"')
+                return "ABOUT"
+            else:
+                return "ERROR2"
+        else:
+            return self._board_fill_(stdin_input)
 
     def reset(self):
         self.map_size = 0
@@ -99,11 +140,11 @@ class Brain:
 
     def _test_columns(self, board):
         board = np.matrix(board).T
-        #print("BEFORE TRANSPOSE")
-        #print(board)
-        #board = np.transpose(board)
-        #print("APTRES")
-        #print(board)
+        # print("BEFORE TRANSPOSE")
+        # print(board)
+        # board = np.transpose(board)
+        # print("APTRES")
+        # print(board)
         return self._test_rows(board)
 
     def _test_rows(self, board):
