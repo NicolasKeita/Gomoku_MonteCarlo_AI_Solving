@@ -48,46 +48,19 @@ class Brain:
             return "ABOUT"
 
     def _board_fill_(self, stdin_input):
-        if (stdin_input[0] == "DONE"):
+        if stdin_input[0] == "DONE":
             self.in_board = False
             return "DONE"
         else:
-            input = stdin_input[0].split(',')
-            if int(input[2]) == 1:
-                self.board[int(input[0])][int(input[1])] = 'O'
+            new_input = stdin_input[0].split(',')
+            if int(new_input[2]) == 1:
+                self.board[int(new_input[0])][int(new_input[1])] = 'O'
                 print(self.board)
-                return ("1010")
-            elif int(input[2]) == 2:
-                self.board[int(input[0])][int(input[1])] = 'X'
+                return "1010"
+            elif int(new_input[2]) == 2:
+                self.board[int(new_input[0])][int(new_input[1])] = 'X'
                 print(self.board)
-                return ("1111")
-
-    def think(self, stdin_input):
-        if self.in_board == False:
-            if stdin_input[0] == "START":
-                self.map_size = int(stdin_input[1])
-                self._create_board_()
-                return "OK"
-            elif stdin_input[0] == "TURN":
-                opp_x = int(stdin_input[1])
-                opp_y = int(stdin_input[2])
-                self._add_X_(opp_x, opp_y)
-                return "TURN"
-            elif stdin_input[0] == "BEGIN":
-                return "BEGIN"
-            elif stdin_input[0] == "BOARD":
-                self.in_board = True
-                return "BOARD"
-            elif stdin_input[0] == "END":
-                return "END"
-            elif stdin_input[0] == "ABOUT":
-                print(
-                    'name="EPIC BRAIN", version = "1.0", authors="Nicolas Keita" and "Warren OConnor", country="France"')
-                return "ABOUT"
-            else:
-                return "ERROR2"
-        else:
-            return self._board_fill_(stdin_input)
+                return "1111"
 
     def reset(self):
         self.map_size = 0
@@ -111,45 +84,28 @@ class Brain:
         # TODO
         return False
 
-    def _tuples(self, matrix):
-        try:
-            return tuple(self._tuples(a) for a in matrix)
-        except TypeError:
-            return matrix
-
     def _get_static_eval(self, board):
-        board_tmp = [[1, 4, 4, 5, 9],
-                     [1, 4, 4, 5, 9],
-                     [1, 4, 2, 1, 1],
-                     [1, 2, 1, 59, 10],
-                     [1, 5, 10, 4, 65],
-                     [1, 10, 20, 30, 40, 50]]
-        board_tmp = list(set(self._tuples(board_tmp)))
+        # remove duplicate rows
+        board = [list(t) for t in set(tuple(element) for element in board)]
 
-        result = self._test_rows(board_tmp.copy())
+        result = self._test_rows(board.copy())
         if result != DRAW:
             return result
-        result = self._test_columns(board_tmp.copy())
+        result = self._test_columns(board.copy())
         if result != DRAW:
             return result
-        result = self._test_diagonals(board_tmp.copy())
+        result = self._test_diagonals(board.copy())
         return result
 
     def _test_diagonals(self, board):
         return DRAW
 
     def _test_columns(self, board):
-        board = np.matrix(board).T
-        # print("BEFORE TRANSPOSE")
-        # print(board)
-        # board = np.transpose(board)
-        # print("APTRES")
-        # print(board)
+        # Transpose matrix
+        board = [*zip(*board)]
         return self._test_rows(board)
 
     def _test_rows(self, board):
-        print(board)
-        print("END")
         counter_X = 0
         counter_O = 0
         for row_board in board:
