@@ -2,6 +2,7 @@ from queue import Queue
 import math
 import copy
 import time
+from Tnode import Tnode
 
 X_WINS = "X_wins!"
 O_WINS = "O_wins!"
@@ -50,13 +51,13 @@ class Brain:
             elif int(new_input[2]) == 2:
                 self.board[int(new_input[0])][int(new_input[1])] = X_SQUARE
                 print(self.board)
-                return ("1111")
+                return "1111"
 
     def think(self, stdin_input):
-        if self.in_board == False:
+        if not self.in_board:
             if stdin_input[0] == "START":
-                #if int(stdin_input[1]) < 5:
-                #    return "ERROR"
+                if int(stdin_input[1]) < 5:
+                    return "ERROR"
                 self.map_size = int(stdin_input[1])
                 self._create_board_()
                 self.started = True
@@ -73,7 +74,7 @@ class Brain:
                 self._add_char_to_board('O', pos)
                 return pos
             elif stdin_input[0] == "BOARD" :
-                if self.started == False:
+                if not self.started:
                     return "ERROR"
                 self.in_board = True
                 return "BOARD"
@@ -119,7 +120,17 @@ class Brain:
                 self._pos_to_do = self._board_diff(boards[i], board)
         return X_WINS
 
+    def _create_tree(self, board):
+        node = Tnode()
+        node.board = board
+        X_turn = self._is_X_turn(board)
+        node.nexts = self._get_all_possible_next_moves(board, X_turn)
+
+
     def _solve(self, board):
+        self.create_tree(board)
+        return "1,1"
+        """
         static_eval = self._get_static_eval(board)
         if static_eval == X_WINS or static_eval == O_WINS:
             return static_eval
@@ -128,7 +139,9 @@ class Brain:
         X_turn = self._is_X_turn(board)
         boards = self._get_all_possible_next_moves(board, X_turn)
         board_evals = [self._solve(board_tmp) for board_tmp in boards]
+        
         return self._decide_where_to_play(board_evals, boards, board)
+        """
 
     def _is_full(self, board):
         for row in board:
