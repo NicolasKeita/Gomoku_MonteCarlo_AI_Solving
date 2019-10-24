@@ -1,9 +1,17 @@
 from queue import Queue
-import numpy as np
+import math
+import copy
+import time
 
 X_WINS = "X_wins!"
 O_WINS = "O_wins!"
 DRAW = "Draw!"
+UNDEFINED = "Undefined"
+
+BLANK = ' '
+X_SQUARE = 'X'
+O_SQUARE = 'O'
+WIN_CONDITION = 3
 
 
 class Brain:
@@ -12,32 +20,35 @@ class Brain:
         self.board = []
         self.in_board = False
         self.started = False
+        self._pos_to_do = "BUG"
+        self.debug = 0
 
     def _create_board_(self):
         add = []
         for i in range(0, self.map_size):
             for j in range(0, self.map_size):
-                add.append(' ')
+                add.append(BLANK)
                 j += 1
-            self.board.append(add)
-            add = []
+            self.board.append(add.copy())
+            add.clear()
             i += 1
 
-    def _add_X_(self, x, y):
-        self.board[x][y] = "X"
+    def _add_char_to_board(self, char, positions):
+        positions = positions.split(',')
+        self.board[int(positions[0])][int(positions[1])] = char
 
     def _board_fill_(self, stdin_input):
-        if (stdin_input[0] == "DONE"):
+        if stdin_input[0] == "DONE":
             self.in_board = False
             return "DONE"
         else:
-            input = stdin_input[0].split(',')
-            if int(input[2]) == 1:
-                self.board[int(input[0])][int(input[1])] = 'O'
+            new_input = stdin_input[0].split(',')
+            if int(new_input[2]) == 1:
+                self.board[int(new_input[0])][int(new_input[1])] = O_SQUARE
                 print(self.board)
-                return ("1010")
-            elif int(input[2]) == 2:
-                self.board[int(input[0])][int(input[1])] = 'X'
+                return "1010"
+            elif int(new_input[2]) == 2:
+                self.board[int(new_input[0])][int(new_input[1])] = X_SQUARE
                 print(self.board)
                 return ("1111")
 
@@ -53,12 +64,16 @@ class Brain:
                 self.started = True
                 return "OK"
             elif stdin_input[0] == "TURN":
-                opp_x = int(stdin_input[1])
-                opp_y = int(stdin_input[2])
-                self._add_X_(opp_x, opp_y)
-                return "TURN"
+                 self._add_char_to_board(X_SQUARE, stdin_input[1])
+                start = time.time()
+                self._solve(self.board)
+                print("time to find solution : " + str(time.time() - start))
+                return self._pos_to_do
             elif stdin_input[0] == "BEGIN":
-                return "BEGIN"
+                pos = str(math.floor(self.map_size / 2)) + "," + \
+                        str(math.floor(self.map_size / 2))
+                self._add_char_to_board('O', pos)
+            return pos
             elif stdin_input[0] == "BOARD" :
                 if self.started == False:
                     return "ERROR"
@@ -78,54 +93,63 @@ class Brain:
     def reset(self):
         self.map_size = 0
 
+    def _is_X_turn(self, board):
+        x_count = 0
+        for row in board:
+            x_count += row.count(X_SQUARE)
+            x_count -= row.count(O_SQUARE)
+        return x_count == 0
+
+    def _board_diff(self, board_1, board_2):
+        for y in range(len(board_1)):
+            for x in range(len(board_2)):
+                if board_1[y][x] != board_2[y][x]:
+                    return str(x) + "," + str(y)
+        return None
+
+    def _decide_where_to_play(self, board_evals, boards, board):
+        for i in range(len(board_evals)):
+            if board_evals[i] == O_WINS:
+                self._pos_to_do = self._board_diff(boards[i], board)
+                return O_WINS
+        for i in range(len(board_evals)):
+            if board_evals[i] == DRAW:
+                self._pos_to_do = self._board_diff(boards[i], board)
+                return DRAW
+        for i in range(len(board_evals)):
+            if board_evals[i] == X_WINS:
+                self._pos_to_do = self._board_diff(boards[i], board)
+        return X_WINS
+
     def _solve(self, board):
         static_eval = self._get_static_eval(board)
         if static_eval == X_WINS or static_eval == O_WINS:
             return static_eval
         if self._is_full(board):
             return DRAW
-        boards = self._get_all_possible_next_moves(board)
+        X_turn = self._is_X_turn(board)
+        boards = self._get_all_possible_next_moves(board, X_turn)
         board_evals = [self._solve(board_tmp) for board_tmp in boards]
-        if X_WINS in board_evals:
-            return X_WINS
-        elif DRAW in board_evals:
-            return DRAW
-        else:
-            return O_WINS
+        return self._decide_where_to_play(board_evals, boards, board)
 
     def _is_full(self, board):
-        for i in range(0, self.map_size):
-            for j in range(0, self.map_size):
-                if (board[i][j] == ' '):
+        for row in board:
+            for char in row:
+                if char == BLANK:
                     return False
-                j += 1
-            i += 1
-        
-        return True        
-
-
-    def _tuples(self, matrix):
-        try:
-            return tuple(self._tuples(a) for a in matrix)
-        except TypeError:
-            return matrix
+        return True
 
     def _get_static_eval(self, board):
-        board_tmp = [['X','O', 4, 5, 9],
-                     [1, 'X', 4, 5, 9],
-                     [1, 4, 'X', 1, 1],
-                     [1, 2, 1, 'X', 10],
-                     [1, 5, 10, 4, 'X']]
-        
-        #board_tmp = list(set(self._tuples(board_tmp)))
+        # remove duplicate rows
+        board = [list(t) for t in set(tuple(element) for element in board)]
 
-        result = self._test_rows(board_tmp.copy())
-        if result != DRAW:
+        result = self._test_rows(copy.deepcopy(board))
+        if result != UNDEFINED:
             return result
-        result = self._test_columns(board_tmp.copy())
-        if result != DRAW:
+        result = self._test_columns(copy.deepcopy(board))
+        if result != UNDEFINED:
             return result
-        result = self._test_diagonals(board_tmp.copy())
+        result = self._test_diagonals(copy.deepcopy(board))
         return result
 
     def _test_diagonals(self, board):
@@ -152,37 +176,39 @@ class Brain:
         return 
 
     def _test_columns(self, board):
-        board = np.matrix(board).T
-        # print("BEFORE TRANSPOSE")
-        # print(board)
-        # board = np.transpose(board)
-        # print("APTRES")
-        # print(board)
+        # Transpose matrix
+        board = [*zip(*board)]
         return self._test_rows(board)
 
     def _test_rows(self, board):
-        print(board)
-        print("END")
-        counter_X = 0
-        counter_O = 0
         for row_board in board:
+            counter_O = 0
+            counter_X = 0
             for char in row_board:
-                if char == "X":
+                if char == X_SQUARE:
                     counter_X += 1
                 else:
                     counter_X = 0
-                if char == "O":
+                if char == O_SQUARE:
                     counter_O += 1
                 else:
                     counter_O = 0
-                if counter_X == 5:
+                if counter_X == WIN_CONDITION:
                     return X_WINS
-                elif counter_O == 5:
+                elif counter_O == WIN_CONDITION:
                     return O_WINS
-        return DRAW
+        return UNDEFINED
 
-    def _get_all_possible_next_moves(self, board):
-        return [board, board]  # TODO
+    def _get_all_possible_next_moves(self, board, X_turn):
+        symbol = X_SQUARE if X_turn else O_SQUARE
+        boards = []
+        for y in range(len(board)):
+            for x in range(len(board[y])):
+                if board[y][x] == BLANK:
+                    tmp_board = copy.deepcopy(board)
+                    tmp_board[y][x] = symbol
+                    boards.append(tmp_board)
+        return boards
 
     def board_loop(self):
         queue = Queue()
@@ -192,15 +218,15 @@ class Brain:
             # print("while")
             if not queue.empty():
                 stdin_input = queue.get()
-            if stdin_input[0] == "DONE":
-                break
-            try:
-                print("in try")
-                if int(stdin_input[2]) == 1:
-                    self.board[int(stdin_input[0])][int(stdin_input[1])] = 'O'
-                    print(self.board)
-                elif int(stdin_input[2]) == 2:
-                    self.board[int(stdin_input[0])][int(stdin_input[1])] = 'X'
-                    print(self.board)
-            except (ValueError, IndexError):
-                print("ERROR")
+                if stdin_input[0] == "DONE":
+                    break
+                try:
+                    print("in try")
+                    if int(stdin_input[2]) == 1:
+                        self.board[int(stdin_input[0])][int(stdin_input[1])] = 'O'
+                        print(self.board)
+                    elif int(stdin_input[2]) == 2:
+                        self.board[int(stdin_input[0])][int(stdin_input[1])] = 'X'
+                        print(self.board)
+                except (ValueError, IndexError):
+                    print("ERROR")
