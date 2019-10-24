@@ -56,11 +56,9 @@ class Brain:
         if self.in_board == False:
             if stdin_input[0] == "START":
                 #if int(stdin_input[1]) < 5:
-                 #   return "ERROR"
-                #self.map_size = int(stdin_input[1])
-                #self._create_board_()
-                self.map_size = int(5)
-                self._get_static_eval(self.board)
+                #    return "ERROR"
+                self.map_size = int(stdin_input[1])
+                self._create_board_()
                 self.started = True
                 return "OK"
             elif stdin_input[0] == "TURN":
@@ -149,7 +147,7 @@ class Brain:
         result = self._test_columns(copy.deepcopy(board))
         if result != UNDEFINED:
             return result
-        result = self._test_diagonals(copy.deepcopy(board))
+        #result = self._test_diagonals(copy.deepcopy(board))
         return result
 
     def _test_diagonals(self, board):
