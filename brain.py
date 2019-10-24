@@ -1,7 +1,7 @@
 from queue import Queue
 import math
-import numpy as np
 import copy
+import time
 
 X_WINS = "X_wins!"
 O_WINS = "O_wins!"
@@ -11,6 +11,7 @@ UNDEFINED = "Undefined"
 BLANK = ' '
 X_SQUARE = 'X'
 O_SQUARE = 'O'
+WIN_CONDITION = 3
 
 
 class Brain:
@@ -19,6 +20,7 @@ class Brain:
         self.board = []
         self.in_board = False
         self._pos_to_do = "BUG"
+        self.debug = 0
 
     def _create_board_(self):
         add = []
@@ -26,8 +28,8 @@ class Brain:
             for j in range(0, self.map_size):
                 add.append(BLANK)
                 j += 1
-            self.board.append(add)
-            add = []
+            self.board.append(add.copy())
+            add.clear()
             i += 1
 
     def _add_char_to_board(self, char, positions):
@@ -41,7 +43,9 @@ class Brain:
             return "OK"
         elif stdin_input[0] == "TURN":
             self._add_char_to_board(X_SQUARE, stdin_input[1])
+            start = time.time()
             self._solve(self.board)
+            print("time to find solution : " + str(time.time() - start))
             return self._pos_to_do
         elif stdin_input[0] == "BEGIN":
             pos = str(math.floor(self.map_size / 2)) + "," + \
@@ -89,15 +93,7 @@ class Brain:
                     return str(x) + "," + str(y)
         return None
 
-    def _solve(self, board):
-        static_eval = self._get_static_eval(board)
-        if static_eval == X_WINS or static_eval == O_WINS:
-            return static_eval
-        if self._is_full(board):
-            return DRAW
-        X_turn = self._is_X_turn(board)
-        boards = self._get_all_possible_next_moves(board, X_turn)
-        board_evals = [self._solve(board_tmp) for board_tmp in boards]
+    def _decide_where_to_play(self, board_evals, boards, board):
         for i in range(len(board_evals)):
             if board_evals[i] == O_WINS:
                 self._pos_to_do = self._board_diff(boards[i], board)
@@ -109,7 +105,18 @@ class Brain:
         for i in range(len(board_evals)):
             if board_evals[i] == X_WINS:
                 self._pos_to_do = self._board_diff(boards[i], board)
-                return X_WINS
+        return X_WINS
+
+    def _solve(self, board):
+        static_eval = self._get_static_eval(board)
+        if static_eval == X_WINS or static_eval == O_WINS:
+            return static_eval
+        if self._is_full(board):
+            return DRAW
+        X_turn = self._is_X_turn(board)
+        boards = self._get_all_possible_next_moves(board, X_turn)
+        board_evals = [self._solve(board_tmp) for board_tmp in boards]
+        return self._decide_where_to_play(board_evals, boards, board)
 
     def _is_full(self, board):
         for row in board:
@@ -140,7 +147,6 @@ class Brain:
         return self._test_rows(board)
 
     def _test_rows(self, board):
-        win_condition = 3
         for row_board in board:
             counter_O = 0
             counter_X = 0
@@ -153,9 +159,9 @@ class Brain:
                     counter_O += 1
                 else:
                     counter_O = 0
-                if counter_X == win_condition:
+                if counter_X == WIN_CONDITION:
                     return X_WINS
-                elif counter_O == win_condition:
+                elif counter_O == WIN_CONDITION:
                     return O_WINS
         return UNDEFINED
 
