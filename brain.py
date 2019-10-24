@@ -64,7 +64,7 @@ class Brain:
                 self.started = True
                 return "OK"
             elif stdin_input[0] == "TURN":
-                 self._add_char_to_board(X_SQUARE, stdin_input[1])
+                self._add_char_to_board(X_SQUARE, stdin_input[1])
                 start = time.time()
                 self._solve(self.board)
                 print("time to find solution : " + str(time.time() - start))
@@ -73,7 +73,7 @@ class Brain:
                 pos = str(math.floor(self.map_size / 2)) + "," + \
                         str(math.floor(self.map_size / 2))
                 self._add_char_to_board('O', pos)
-            return pos
+                return pos
             elif stdin_input[0] == "BOARD" :
                 if self.started == False:
                     return "ERROR"
