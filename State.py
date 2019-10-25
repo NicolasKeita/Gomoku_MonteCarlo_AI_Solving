@@ -7,7 +7,6 @@ from Board import Board
 INFINITY = 9999
 WIN_SCORE = 10
 
-MAP_SIZE = 3
 IN_PROGRESS = -1
 DRAW = 0
 P1 = 1
@@ -43,9 +42,8 @@ class State:
     def random_play(self):
         available_positions = self.board.get_empty_positions()
         total_possibilities = len(available_positions)
-        random.seed()
         r = int(random.random() * total_possibilities)
         self.board.perform_move(self.player_no, available_positions[r])
 
     def toggle_player(self):
-        self.player_no = MAP_SIZE - self.player_no
+        self.player_no = 3 - self.player_no

@@ -2,7 +2,6 @@ import copy
 
 X_WINS = 2
 O_WINS = 1
-DRAW = 0
 UNDEFINED = "Undefined"
 
 BLANK = ' '
@@ -29,7 +28,6 @@ class Position:
 class Board:
     def __init__(self, board=None):
         self.board = [] if board is None else copy.deepcopy(board)
-        self.map_size = 3
         self.total_moves = 0
 
     def perform_move(self, player, p):
@@ -38,8 +36,7 @@ class Board:
         self.board[p.y][p.x] = symbol
 
     def check_status(self):
-        result = self._get_static_eval(self.board)
-        return result
+        return self._get_static_eval(self.board)
 
     def get_empty_positions(self):
         empty_positions = []
@@ -78,6 +75,7 @@ class Board:
         return True
 
     def _test_diagonals(self, board):
+        self.map_size = 19  # TODO remove
         for i in range(0, self.map_size):
             for j in range(0, self.map_size):
                 if board[i][j] == "X":
