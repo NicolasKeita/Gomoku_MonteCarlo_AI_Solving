@@ -1,8 +1,5 @@
 from queue import Queue
 import math
-import copy
-import time
-from Tnode import Tnode, Tree
 from Board import Board
 from MonteCarlo import MonteCarloTreeSearch
 
@@ -44,20 +41,20 @@ class Brain:
         positions = positions.split(',')
         self.board[int(positions[1])][int(positions[0])] = char
 
-    def _board_fill_(self, stdin_input):
+    def _board_fill(self, stdin_input):
         if stdin_input[0] == "DONE":
             self.in_board = False
-            return "DONE"
+            result = self._solve(self.board)
+            self._add_char_to_board(O_SQUARE, result)
+            return result
         else:
             new_input = stdin_input[0].split(',')
             if int(new_input[2]) == 1:
                 self.board[int(new_input[0])][int(new_input[1])] = O_SQUARE
-                print(self.board)
-                return "1010"
+                return "WAIT"
             elif int(new_input[2]) == 2:
                 self.board[int(new_input[0])][int(new_input[1])] = X_SQUARE
-                print(self.board)
-                return "1111"
+                return "WAIT"
 
     def think(self, stdin_input):
         if not self.in_board:
@@ -91,7 +88,7 @@ class Brain:
             else:
                 return "ERROR"
         else:
-            return self._board_fill_(stdin_input)
+            return self._board_fill(stdin_input)
 
     def _board_diff(self, board_1, board_2):
         for y in range(len(board_1)):
@@ -109,21 +106,15 @@ class Brain:
 
     def board_loop(self):
         queue = Queue()
-        # x = Thread(target=get_input, daemon=True)
-        # x.start()
         while True:
-            # print("while")
             if not queue.empty():
                 stdin_input = queue.get()
                 if stdin_input[0] == "DONE":
                     break
                 try:
-                    print("in try")
                     if int(stdin_input[2]) == 1:
                         self.board[int(stdin_input[0])][int(stdin_input[1])] = 'O'
-                        print(self.board)
                     elif int(stdin_input[2]) == 2:
                         self.board[int(stdin_input[0])][int(stdin_input[1])] = 'X'
-                        print(self.board)
                 except (ValueError, IndexError):
                     print("ERROR")

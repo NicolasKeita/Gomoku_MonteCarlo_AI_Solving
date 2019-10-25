@@ -58,11 +58,9 @@ class Board:
         result = self._test_columns(copy.deepcopy(board))
         if result != IN_PROGRESS:
             return result
-        """
-        result = self._test_diagonals(copy.deepcopy(board))
+        #result = self._test_diagonals(copy.deepcopy(board))
         if result != IN_PROGRESS:
             return result
-        """
         if self._is_full():
             return DRAW
         return result
@@ -79,24 +77,34 @@ class Board:
         for i in range(0, self.map_size):
             for j in range(0, self.map_size):
                 if board[i][j] == "X":
-                    if (i + 4 <= self.map_size and j + 4 <= self.map_size
-                            and board[i + 1][j + 1] == "X" and board[i + 2][j + 2] == "X"
-                            and board[i + 3][j + 3] == "X" and board[i + 4][j + 4] == "X"):
-                        return X_WINS
-                    elif (i - 4 >= 0 and j - 4 >= 0
-                          and board[i - 1][j - 1] == "X" and board[i - 2][j - 2] == "X"
-                          and board[i - 3][j - 3] == "X" and board[i - 4][j - 4] == "X"):
-                        return X_WINS
+                    if i + 4 <= self.map_size and j + 4 <= self.map_size:
+                        if (board[i + 1][j + 1] == "X" and board[i + 2][j + 2] == "X"
+                                and board[i + 3][j + 3] == "X" and board[i + 4][j + 4] == "X"):
+                            return X_WINS
+                        else:
+                            pass
+                    elif i - 4 >= 0 and j - 4 >= 0:
+                        if (board[i - 1][j - 1] == "X" and board[i - 2][j - 2] == "X"
+                                and board[i - 3][j - 3] == "X" and board[i - 4][j - 4] == "X"):
+                            return X_WINS
+                        else:
+                            pass
                 elif board[i][j] == "O":
-                    if (i + 4 <= self.map_size and j + 4 <= self.map_size
-                            and board[i + 1][j + 1] == "O" and board[i + 2][j + 2] == "O"
-                            and board[i + 3][j + 3] == "O" and board[i + 4][j + 4] == "O"):
-                        return O_WINS
-                    elif (i - 4 >= 0 and j - 4 >= 0
-                          and board[i - 1][j - 1] == "O" and board[i - 2][j - 2] == "O"
-                          and board[i - 3][j - 3] == "O" and board[i - 4][j - 4] == "O"):
-                        return O_WINS
-        return
+                    if i + 4 <= self.map_size and j + 4 <= self.map_size:
+                        if (board[i + 1][j + 1] == "O" and board[i + 2][j + 2] == "O"
+                                and board[i + 3][j + 3] == "O" and board[i + 4][j + 4] == "O"):
+                            return O_WINS
+                        else:
+                            pass
+                    elif i - 4 >= 0 and j - 4 >= 0:
+                        if (board[i - 1][j - 1] == "O" and board[i - 2][j - 2] == "O"
+                                and board[i - 3][j - 3] == "O" and board[i - 4][j - 4] == "O"):
+                            return O_WINS
+                        else:
+                            pass
+                j += 1
+            i += 1
+        return IN_PROGRESS
 
     def _test_columns(self, board):
         # Transpose matrix
