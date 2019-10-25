@@ -1,6 +1,8 @@
 import time
 import copy
+import math
 import random
+from Board import Board
 from State import State
 from UCT import UCT
 

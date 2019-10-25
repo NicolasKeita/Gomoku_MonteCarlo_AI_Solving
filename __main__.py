@@ -3,6 +3,7 @@
 from queue import Queue
 from threading import Thread
 from brain import Brain
+import os
 
 
 def get_input(queue):
@@ -42,5 +43,4 @@ def main():
                 print(decision, end="\r\n")
 
 
-if __name__ == "__main__":
-    exit(main())
+main()
