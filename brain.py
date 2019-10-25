@@ -2,17 +2,21 @@ from queue import Queue
 import math
 import copy
 import time
-from Tnode import Tnode
+from Tnode import Tnode, Tree, MonteCarloTreeSearch, Board
 
-X_WINS = "X_wins!"
-O_WINS = "O_wins!"
-DRAW = "Draw!"
+X_WINS = -1
+O_WINS = 1
 UNDEFINED = "Undefined"
 
 BLANK = ' '
 X_SQUARE = 'X'
 O_SQUARE = 'O'
 WIN_CONDITION = 3
+
+IN_PROGRESS = -1
+DRAW = 0
+P1 = 1
+P2 = 2
 
 
 class Brain:
@@ -36,7 +40,7 @@ class Brain:
 
     def _add_char_to_board(self, char, positions):
         positions = positions.split(',')
-        self.board[int(positions[0])][int(positions[1])] = char
+        self.board[int(positions[1])][int(positions[0])] = char
 
     def _board_fill_(self, stdin_input):
         if stdin_input[0] == "DONE":
@@ -56,8 +60,8 @@ class Brain:
     def think(self, stdin_input):
         if not self.in_board:
             if stdin_input[0] == "START":
-                if int(stdin_input[1]) < 5:
-                    return "ERROR"
+                #if int(stdin_input[1]) < 5:
+                    #return "ERROR"
                 self.map_size = int(stdin_input[1])
                 self._create_board_()
                 self.started = True
@@ -65,15 +69,16 @@ class Brain:
             elif stdin_input[0] == "TURN":
                 self._add_char_to_board(X_SQUARE, stdin_input[1])
                 start = time.time()
-                self._solve(self.board)
-                print("time to find solution : " + str(time.time() - start))
-                return self._pos_to_do
+                result = self._solve(self.board)
+                #print("time to find solution : " + str(time.time() - start))
+                self._add_char_to_board(O_SQUARE, result)
+                return result
             elif stdin_input[0] == "BEGIN":
                 pos = str(math.floor(self.map_size / 2)) + "," + \
-                        str(math.floor(self.map_size / 2))
-                self._add_char_to_board('O', pos)
+                      str(math.floor(self.map_size / 2))
+                self._add_char_to_board(O_SQUARE, pos)
                 return pos
-            elif stdin_input[0] == "BOARD" :
+            elif stdin_input[0] == "BOARD":
                 if not self.started:
                     return "ERROR"
                 self.in_board = True
@@ -120,16 +125,61 @@ class Brain:
                 self._pos_to_do = self._board_diff(boards[i], board)
         return X_WINS
 
-    def _create_tree(self, board):
-        node = Tnode()
-        node.board = board
-        X_turn = self._is_X_turn(board)
-        node.nexts = self._get_all_possible_next_moves(board, X_turn)
+    def _debug_print_board(self, board):
+        for row in board:
+            print(row)
+        print('\n')
 
+    def _create_tree(self, board):
+        t = Tree()
+        t.node = Tnode()
+        t.node.board = board
+        if self._is_full(board):
+            return
+        X_turn = self._is_X_turn(board)
+        static_eval = self._get_static_eval(board)
+        if static_eval != UNDEFINED:
+            return
+
+        #print("Affichage du board basic. Next to play is X : ", X_turn)
+        #self._debug_print_board(board)
+        #print("Affichage des news. Next to play is X: ", X_turn)
+        node.nexts = copy.deepcopy(self._get_all_possible_next_moves(board, X_turn))
+        for board_tmp in node.nexts:
+            static_eval = self._get_static_eval(board)
+            if static_eval == O_WINS:
+                print("GOOD MVE !", board_tmp)
+                break
+
+        #self.debug += 1
+        #print("DEBUG VAR : ", self.debug)
+        """
+        if self.debug > 10000:
+            if len(node.nexts) > 4:
+                for board_tmp in node.nexts:
+                    self._debug_print_board(board_tmp)
+                return
+        """
+        for board_tmp in node.nexts:
+            self._debug_print_board(board_tmp)
+        [self._create_tree(board_tmp) for board_tmp in node.nexts]
+
+    def _monte_carlo(self, board):
+        mcts = MonteCarloTreeSearch()
+        gameTree = Tree()
+        total_move = 3 * 3
+        tmp_board = Board(board)
+        #print("before")
+        #tmp_board.print()
+        my_board = Board(board)
+        my_board = mcts.findNextMove(my_board, P1)
+        #print("after")
+        #my_board.print()
+        return self._board_diff(my_board.board, tmp_board.board)
 
     def _solve(self, board):
-        self.create_tree(board)
-        return "1,1"
+        #self._create_tree(board)
+        return self._monte_carlo(board)
         """
         static_eval = self._get_static_eval(board)
         if static_eval == X_WINS or static_eval == O_WINS:
@@ -160,31 +210,31 @@ class Brain:
         result = self._test_columns(copy.deepcopy(board))
         if result != UNDEFINED:
             return result
-        #result = self._test_diagonals(copy.deepcopy(board))
+        # result = self._test_diagonals(copy.deepcopy(board))
         return result
 
     def _test_diagonals(self, board):
         for i in range(0, self.map_size):
             for j in range(0, self.map_size):
-                if (board[i][j] == "X"):
+                if board[i][j] == "X":
                     if (i + 4 <= self.map_size and j + 4 <= self.map_size
-                    and board[i+1][j+1] == "X" and board[i+2][j+2] == "X"
-                    and board[i+3][j+3] == "X" and board[i+4][j+4] == "X"):
+                            and board[i + 1][j + 1] == "X" and board[i + 2][j + 2] == "X"
+                            and board[i + 3][j + 3] == "X" and board[i + 4][j + 4] == "X"):
                         return X_WINS
                     elif (i - 4 >= 0 and j - 4 >= 0
-                    and board[i-1][j-1] == "X" and board[i-2][j-2] == "X"
-                    and board[i-3][j-3] == "X" and board[i-4][j-4] == "X"):
-                        return X_WINS    
-                elif (board[i][j] == "O"):
+                          and board[i - 1][j - 1] == "X" and board[i - 2][j - 2] == "X"
+                          and board[i - 3][j - 3] == "X" and board[i - 4][j - 4] == "X"):
+                        return X_WINS
+                elif board[i][j] == "O":
                     if (i + 4 <= self.map_size and j + 4 <= self.map_size
-                    and board[i+1][j+1] == "O" and board[i+2][j+2] == "O"
-                    and board[i+3][j+3] == "O" and board[i+4][j+4] == "O"):
+                            and board[i + 1][j + 1] == "O" and board[i + 2][j + 2] == "O"
+                            and board[i + 3][j + 3] == "O" and board[i + 4][j + 4] == "O"):
                         return O_WINS
                     elif (i - 4 >= 0 and j - 4 >= 0
-                    and board[i-1][j-1] == "O" and board[i-2][j-2] == "O"
-                    and board[i-3][j-3] == "O" and board[i-4][j-4] == "O"):
-                        return O_WINS    
-        return 
+                          and board[i - 1][j - 1] == "O" and board[i - 2][j - 2] == "O"
+                          and board[i - 3][j - 3] == "O" and board[i - 4][j - 4] == "O"):
+                        return O_WINS
+        return
 
     def _test_columns(self, board):
         # Transpose matrix
