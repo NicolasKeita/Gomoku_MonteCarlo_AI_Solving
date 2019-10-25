@@ -3,7 +3,6 @@
 from queue import Queue
 from threading import Thread
 from brain import Brain
-import os
 
 
 def get_input(queue):
