@@ -42,5 +42,4 @@ def main():
                 print(decision, end="\r\n")
 
 
-if __name__ == "__main__":
-    exit(main())
+main()

@@ -3,3 +3,5 @@ __pycache__
 *~
 .idea
 build/
+pbrain-gomoku-ai.py
+log.txt

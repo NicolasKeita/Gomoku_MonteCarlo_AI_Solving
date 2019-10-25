@@ -6,5 +6,5 @@ setup(
     name="pbrain-gomoku-ai",
     version="0.1",
     description="This is Gomoku !",
-    executables=[Executable("__main__.py")],
+    executables=[Executable("pbrain-gomoku-ai.py")],
 )
