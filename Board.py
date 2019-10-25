@@ -7,16 +7,13 @@ UNDEFINED = "Undefined"
 BLANK = ' '
 X_SQUARE = 'X'
 O_SQUARE = 'O'
-WIN_CONDITION = 5
 
-INFINITY = 9999
 WIN_SCORE = 10
 
 IN_PROGRESS = -1
 DRAW = 0
 P1 = 1
 P2 = 2
-END = 10
 
 
 class Position:
@@ -26,8 +23,18 @@ class Position:
 
 
 class Board:
-    def __init__(self, board=None):
-        self.board = [] if board is None else copy.deepcopy(board)
+    def __init__(self, board=None, size=5):
+        self.IN_PROGRESS = -1
+        self.DRAW = 0
+        self.P1 = 1
+        self.P2 = 2
+        self.WIN_CONDITION = 5
+
+        self.size = size
+        if board is None:
+            self.board = [[' '] * self.size for _ in range(self.size)]
+        else:
+            self.board = copy.deepcopy(board)
         self.total_moves = 0
 
     def perform_move(self, player, p):
@@ -51,6 +58,12 @@ class Board:
             print(row)
         print('\n')
 
+    def board_diff(self, board_2):
+        for y in range(len(self.board)):
+            for x in range(len(board_2.board)):
+                if self.board[y][x] != board_2.board[y][x]:
+                    return str(x) + "," + str(y)
+
     def _get_static_eval(self, board):
         result = self._test_rows(copy.deepcopy(board))
         if result != IN_PROGRESS:
@@ -58,7 +71,7 @@ class Board:
         result = self._test_columns(copy.deepcopy(board))
         if result != IN_PROGRESS:
             return result
-        #result = self._test_diagonals(copy.deepcopy(board))
+        # result = self._test_diagonals(copy.deepcopy(board))
         if result != IN_PROGRESS:
             return result
         if self._is_full():
@@ -124,8 +137,9 @@ class Board:
                     counter_O += 1
                 else:
                     counter_O = 0
-                if counter_X == WIN_CONDITION:
+                if counter_X == self.WIN_CONDITION:
                     return X_WINS
-                elif counter_O == WIN_CONDITION:
+                elif counter_O == self.WIN_CONDITION:
                     return O_WINS
         return IN_PROGRESS
+

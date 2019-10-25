@@ -4,14 +4,13 @@ import math
 import random
 from Board import Board
 
-INFINITY = 9999
 WIN_SCORE = 10
 
+INFINITY = 99999
 IN_PROGRESS = -1
 DRAW = 0
 P1 = 1
 P2 = 2
-END = 4.5
 
 BLANK = ' '
 X_SQUARE = 'X'
@@ -21,8 +20,8 @@ O_SQUARE = 'O'
 class State:
     def __init__(self, board=None):
         self.board = Board() if board is None else copy.deepcopy(board)
-        self.score = None
-        self.player_no = None
+        self.score = 0
+        self.player_no = 0
         self.visit_count = 0
         self.win_score = 0
 
@@ -47,3 +46,7 @@ class State:
 
     def toggle_player(self):
         self.player_no = 3 - self.player_no
+
+    def add_score(self, score_to_add):
+        if self.win_score != -INFINITY:
+            self.win_score += score_to_add

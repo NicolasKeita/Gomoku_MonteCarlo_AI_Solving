@@ -1,6 +1,6 @@
 import math
 
-INFINITY = 9999
+INFINITY = 99999
 
 
 class UCT:

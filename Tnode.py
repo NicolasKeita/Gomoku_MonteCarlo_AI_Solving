@@ -6,7 +6,6 @@ from Board import Board
 from State import State
 from UCT import UCT
 
-INFINITY = 9999
 WIN_SCORE = 10
 
 IN_PROGRESS = -1

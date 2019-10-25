@@ -6,7 +6,7 @@ from UCT import UCT
 import random
 from Tnode import Tree, Tnode
 
-INFINITY = 9999
+INFINITY = 99999
 WIN_SCORE = 10
 
 X_WINS = 2
@@ -17,7 +17,6 @@ IN_PROGRESS = -1
 DRAW = 0
 P1 = 1
 P2 = 2
-END = 4.8
 
 BLANK = ' '
 X_SQUARE = 'X'
@@ -25,10 +24,14 @@ O_SQUARE = 'O'
 
 
 class MonteCarloTreeSearch:
-    def __init__(self):
+    def __init__(self, timeout=4.8):
         self.level = None
         self.opponent = None
         random.seed()
+        self.timeout = timeout
+        self.visit_board = [[0] * 5 for _ in range(5)]
+        self.score_board = [[0] * 5 for _ in range(5)]
+        self.root_node = Tnode()
 
     def findNextMove(self, board, player_no):
         self.opponent = 3 - player_no
@@ -36,13 +39,16 @@ class MonteCarloTreeSearch:
         root_node = tree.root
         root_node.state.board = copy.deepcopy(board)
         root_node.state.player_no = self.opponent
+        self.root_node = root_node
 
+        """
         immediat_victory_detected = self._detect_immediat_victory(root_node)
         if immediat_victory_detected:
             return immediat_victory_detected
+        """
 
         start = time.time()
-        while time.time() - start < END:
+        while time.time() - start < self.timeout:
             promising_node = self._select_promising_node(root_node)
             if promising_node.state.board.check_status() == IN_PROGRESS:
                 self._expand_node(promising_node)
@@ -62,6 +68,7 @@ class MonteCarloTreeSearch:
             new_node.parent = promising_node
             new_node.state.player_no = promising_node.state.get_opponent()
             promising_node.childs.append(new_node)
+        return promising_node
 
     def _detect_immediat_victory(self, node):
         states = node.state.get_all_possible_states()
@@ -92,5 +99,5 @@ class MonteCarloTreeSearch:
         while temp_node is not None:
             temp_node.state.visit_count += 1
             if temp_node.state.player_no == player_no:
-                temp_node.state.win_score = WIN_SCORE
+                temp_node.state.add_score(WIN_SCORE)
             temp_node = temp_node.parent

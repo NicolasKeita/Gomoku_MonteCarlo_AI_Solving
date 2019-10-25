@@ -3,8 +3,6 @@ import math
 from Board import Board
 from MonteCarlo import MonteCarloTreeSearch
 
-X_WINS = -1
-O_WINS = 1
 UNDEFINED = "Undefined"
 
 BLANK = ' '
@@ -95,7 +93,6 @@ class Brain:
             for x in range(len(board_2)):
                 if board_1[y][x] != board_2[y][x]:
                     return str(x) + "," + str(y)
-        return None
 
     def _solve(self, board):
         mcts = MonteCarloTreeSearch()
