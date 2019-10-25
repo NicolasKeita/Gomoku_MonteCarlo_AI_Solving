@@ -75,7 +75,7 @@ class Board:
         return True
 
     def _test_diagonals(self, board):
-        self.map_size = 19  # TODO remove
+        self.map_size = len(board)
         for i in range(0, self.map_size):
             for j in range(0, self.map_size):
                 if board[i][j] == "X":

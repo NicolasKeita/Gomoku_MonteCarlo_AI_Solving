@@ -39,7 +39,8 @@ def main():
             except (ValueError, IndexError):
                 decision = "ERROR"
             finally:
-                print(decision, end="\r\n")
+                if decision != "WAIT":
+                    print(decision, end="\r\n")
 
 
 main()

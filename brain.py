@@ -82,7 +82,7 @@ class Brain:
                 if not self.started:
                     return "ERROR"
                 self.in_board = True
-                return "BOARD"
+                return "WAIT"
             elif stdin_input[0] == "END":
                 return "END"
             elif stdin_input[0] == "ABOUT":
@@ -106,31 +106,6 @@ class Brain:
         new_board = Board(board)
         new_board = mcts.findNextMove(new_board, P1)
         return self._board_diff(new_board.board, tmp_board.board)
-
-    """
-    def _test_diagonals(self, board):
-        for i in range(0, self.map_size):
-            for j in range(0, self.map_size):
-                if board[i][j] == "X":
-                    if (i + 4 <= self.map_size and j + 4 <= self.map_size
-                            and board[i + 1][j + 1] == "X" and board[i + 2][j + 2] == "X"
-                            and board[i + 3][j + 3] == "X" and board[i + 4][j + 4] == "X"):
-                        return X_WINS
-                    elif (i - 4 >= 0 and j - 4 >= 0
-                          and board[i - 1][j - 1] == "X" and board[i - 2][j - 2] == "X"
-                          and board[i - 3][j - 3] == "X" and board[i - 4][j - 4] == "X"):
-                        return X_WINS
-                elif board[i][j] == "O":
-                    if (i + 4 <= self.map_size and j + 4 <= self.map_size
-                            and board[i + 1][j + 1] == "O" and board[i + 2][j + 2] == "O"
-                            and board[i + 3][j + 3] == "O" and board[i + 4][j + 4] == "O"):
-                        return O_WINS
-                    elif (i - 4 >= 0 and j - 4 >= 0
-                          and board[i - 1][j - 1] == "O" and board[i - 2][j - 2] == "O"
-                          and board[i - 3][j - 3] == "O" and board[i - 4][j - 4] == "O"):
-                        return O_WINS
-        return
-    """
 
     def board_loop(self):
         queue = Queue()
