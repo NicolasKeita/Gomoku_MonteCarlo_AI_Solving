@@ -11,7 +11,7 @@ PYCACHE	=	__pycache__/
 
 RM		=	rm -f
 
-NAME	=	pbrain-gomoku-ai.py
+NAME	=	pbrain-gomoku-ai
 
 all	:
 	cp __main__.py $(NAME)
