@@ -2,6 +2,8 @@ from queue import Queue
 import math
 from Board import Board
 from MonteCarlo import MonteCarloTreeSearch
+import time
+import numpy as np
 
 UNDEFINED = "Undefined"
 
@@ -95,9 +97,9 @@ class Brain:
                     return str(x) + "," + str(y)
 
     def _solve(self, board):
-        mcts = MonteCarloTreeSearch()
-        tmp_board = Board(board)
-        new_board = Board(board)
+        mcts = MonteCarloTreeSearch(timeout=4.2, size_board=len(board))
+        tmp_board = Board(np.asarray(board))
+        new_board = Board(np.asarray(board))
         new_board = mcts.findNextMove(new_board, P1)
         return self._board_diff(new_board.board, tmp_board.board)
 

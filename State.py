@@ -3,8 +3,7 @@ import copy
 import math
 import random
 from Board import Board
-
-WIN_SCORE = 10
+import numpy as np
 
 INFINITY = 99999
 IN_PROGRESS = -1
@@ -19,7 +18,7 @@ O_SQUARE = 'O'
 
 class State:
     def __init__(self, board=None):
-        self.board = Board() if board is None else copy.deepcopy(board)
+        self.board = Board(board) if board is None else board
         self.score = 0
         self.player_no = 0
         self.visit_count = 0
@@ -29,7 +28,7 @@ class State:
         possible_states = []
         available_positions = self.board.get_empty_positions()
         for pos in available_positions:
-            new_state = State(Board(copy.deepcopy(self.board.board)))
+            new_state = State(copy.deepcopy(self.board))
             new_state.player_no = 3 - self.player_no
             new_state.board.perform_move(new_state.player_no, pos)
             possible_states.append(new_state)

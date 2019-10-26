@@ -41,6 +41,8 @@ def main():
             finally:
                 if decision != "WAIT":
                     print(decision, end="\r\n")
+    return 0
 
 
-main()
+if __name__ == "__main__":
+    exit(main())

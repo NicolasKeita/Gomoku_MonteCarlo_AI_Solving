@@ -1,22 +1,5 @@
-import time
-import copy
-import math
 import random
-from Board import Board
 from State import State
-from UCT import UCT
-
-WIN_SCORE = 10
-
-IN_PROGRESS = -1
-DRAW = 0
-P1 = 1
-P2 = 2
-END = 4.8
-
-BLANK = ' '
-X_SQUARE = 'X'
-O_SQUARE = 'O'
 
 
 class Tree:
@@ -26,7 +9,7 @@ class Tree:
 
 class Tnode:
     def __init__(self, state=None):
-        self.state = State() if state is None else copy.deepcopy(state)
+        self.state = State() if state is None else state
         self.parent = None
         self.childs = []
 

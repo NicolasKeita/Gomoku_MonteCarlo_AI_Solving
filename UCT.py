@@ -1,6 +1,7 @@
 import math
+import numpy as np
 
-INFINITY = 99999
+INFINITY = 9999
 
 
 class UCT:
@@ -9,7 +10,7 @@ class UCT:
         if node_visit == 0:
             return INFINITY
         return (node_win_score / node_visit) + \
-               1.41 * math.sqrt(math.log(total_visit) / node_visit)
+               1.41 * np.sqrt(np.log(total_visit) / node_visit)
 
     @staticmethod
     def find_best_node_with_uct(node):
