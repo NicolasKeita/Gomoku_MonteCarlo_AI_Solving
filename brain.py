@@ -66,9 +66,11 @@ class Brain:
                 self.started = True
                 return "OK"
             elif stdin_input[0] == "TURN":
+                start = time.time()
                 self._add_char_to_board(X_SQUARE, stdin_input[1])
                 result = self._solve(self.board)
                 self._add_char_to_board(O_SQUARE, result)
+                print("Temps pour resoudre : ", time.time() - start)
                 return result
             elif stdin_input[0] == "BEGIN":
                 pos = str(math.floor(self.map_size / 2)) + "," + \
@@ -97,7 +99,7 @@ class Brain:
                     return str(x) + "," + str(y)
 
     def _solve(self, board):
-        mcts = MonteCarloTreeSearch(timeout=4.2, size_board=len(board))
+        mcts = MonteCarloTreeSearch(timeout=3.2, size_board=len(board))
         tmp_board = Board(np.asarray(board))
         new_board = Board(np.asarray(board))
         new_board = mcts.findNextMove(new_board, P1)

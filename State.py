@@ -28,6 +28,7 @@ class State:
         possible_states = []
         available_positions = self.board.get_empty_positions()
         for pos in available_positions:
+            #new_state = State(Board(self.board.board.copy()))
             new_state = State(copy.deepcopy(self.board))
             new_state.player_no = 3 - self.player_no
             new_state.board.perform_move(new_state.player_no, pos)

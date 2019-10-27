@@ -1,4 +1,5 @@
 import copy
+import numpy as np
 
 X_WINS = 2
 O_WINS = 1
@@ -24,6 +25,7 @@ class Board:
 
         self.size = size
         if board is None:
+            #self.board = np.zeros(shape=(self.size, self.size))
             self.board = [[BLANK] * self.size for _ in range(self.size)]
         else:
             self.board = board
