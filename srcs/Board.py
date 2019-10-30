@@ -8,6 +8,9 @@ class Position:
         self.x = x
         self.y = y
 
+    def to_string(self):
+        return str(self.x) + "," + str(self.y)
+
 
 class Board:
     def __init__(self, board=None, size=19):
@@ -16,27 +19,39 @@ class Board:
         self.P1 = 1
         self.P2 = 2
         self.WIN_CONDITION = 5
+        self.lastest_move = None
 
         self.size = size
         if board is None:
-            #self.board = np.zeros(shape=(self.size, self.size))
-            self.board = [[BLANK] * self.size for _ in range(self.size)]
+            self.board = np.zeros(shape=(self.size, self.size))
+            #self.board = [[BLANK] * self.size for _ in range(self.size)]
         else:
             self.board = board
 
     def perform_move(self, player, p):
         symbol = O_SQUARE if player == self.P1 else X_SQUARE
         self.board[p.y][p.x] = symbol
+        self.lastest_move = Position(p.y, p.x)
 
     def check_status(self):
-        result = self._get_static_eval()
+        result = self._test_rows(self.board)
+        if result != self.IN_PROGRESS:
+            return result
+        result = self._test_columns()
+        if result != self.IN_PROGRESS:
+            return result
+        result = self.test_diagonals()
+        if result != self.IN_PROGRESS:
+            return result
+        if self._is_full():
+            return self.DRAW
         return result
 
     def get_empty_positions(self):
         empty_positions = []
         for y in range(len(self.board)):
             for x in range(len(self.board)):
-                if self.board[y][x] == ' ':
+                if self.board[y][x] == BLANK:
                     empty_positions.append(Position(y, x))
         return empty_positions
 
@@ -44,27 +59,6 @@ class Board:
         for row in self.board:
             print(row)
         print('\n')
-
-    def board_diff(self, board_2):
-        for y in range(len(self.board)):
-            for x in range(len(board_2.board)):
-                if self.board[y][x] != board_2.board[y][x]:
-                    return str(x) + "," + str(y)
-
-    def _get_static_eval(self):
-        result = self._test_rows(self.board)
-        if result != self.IN_PROGRESS:
-            return result
-        result = self._test_columns()
-        if result != self.IN_PROGRESS:
-            return result
-
-        result = self.test_diagonals()
-        if result != self.IN_PROGRESS:
-            return result
-        if self._is_full():
-            return self.DRAW
-        return result
 
     def _is_full(self):
         for row in self.board:

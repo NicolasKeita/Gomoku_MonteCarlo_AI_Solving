@@ -3,6 +3,7 @@ from srcs.UCT import UCT
 from srcs.Tnode import Tree
 from srcs.Board import Board, Position
 from srcs.MonteCarlo import MonteCarloTreeSearch
+from srcs.macros import *
 import numpy as np
 
 
@@ -26,11 +27,11 @@ class TestMonteCarlo(unittest.TestCase):
 
     def test_diago(self):
         b = Board(np.array([
-            ['O', 'X', ' ', ' ', ' '],
-            [' ', 'O', 'X', ' ', ' '],
-            [' ', ' ', 'O', 'X', ' '],
-            ['X', ' ', ' ', 'O', ' '],
-            [' ', ' ', ' ', ' ', 'O'],
+            [O_SQUARE, X_SQUARE, BLANK, BLANK, BLANK],
+            [BLANK, O_SQUARE, X_SQUARE, BLANK, BLANK],
+            [BLANK, BLANK, O_SQUARE, X_SQUARE, BLANK],
+            [X_SQUARE, BLANK, BLANK, O_SQUARE, BLANK],
+            [BLANK, BLANK, BLANK, BLANK, O_SQUARE],
         ]))
         result = b.test_diagonals()
         self.assertTrue(result == b.P1)
@@ -39,18 +40,18 @@ class TestMonteCarlo(unittest.TestCase):
         mcts = MonteCarloTreeSearch(timeout=4.8, size_board=5)
         board = Board(size=5)
         board.board = [
-            ['O', 'X', ' ', ' ', ' '],
-            [' ', 'O', 'X', ' ', ' '],
-            [' ', ' ', 'O', 'X', ' '],
-            ['X', ' ', ' ', 'O', ' '],
-            [' ', ' ', ' ', ' ', ' '],
+            [O_SQUARE, X_SQUARE, BLANK, BLANK, BLANK],
+            [BLANK, O_SQUARE, X_SQUARE, BLANK, BLANK],
+            [BLANK, BLANK, O_SQUARE, X_SQUARE, BLANK],
+            [X_SQUARE, BLANK, BLANK, O_SQUARE, BLANK],
+            [BLANK, BLANK, BLANK, BLANK, BLANK],
         ]
         expected = [
-            ['O', 'X', ' ', ' ', ' '],
-            [' ', 'O', 'X', ' ', ' '],
-            [' ', ' ', 'O', 'X', ' '],
-            ['X', ' ', ' ', 'O', ' '],
-            [' ', ' ', ' ', ' ', 'O'],
+            [O_SQUARE, X_SQUARE, BLANK, BLANK, BLANK],
+            [BLANK, O_SQUARE, X_SQUARE, BLANK, BLANK],
+            [BLANK, BLANK, O_SQUARE, X_SQUARE, BLANK],
+            [X_SQUARE, BLANK, BLANK, O_SQUARE, BLANK],
+            [BLANK, BLANK, BLANK, BLANK, O_SQUARE],
         ]
         board = mcts.findNextMove(board, board.P1)
         print("Final board : ")
@@ -62,18 +63,18 @@ class TestMonteCarlo(unittest.TestCase):
         mcts = MonteCarloTreeSearch(timeout=4.8, size_board=5)
         board = Board(size=5)
         board.board = [
-            ['X', 'O', ' ', ' ', ' '],
-            ['X', 'O', ' ', ' ', ' '],
-            ['X', 'O', ' ', ' ', ' '],
-            ['X', 'O', ' ', ' ', ' '],
-            [' ', ' ', ' ', ' ', ' '],
+            [X_SQUARE, O_SQUARE, BLANK, BLANK, BLANK],
+            [X_SQUARE, O_SQUARE, BLANK, BLANK, BLANK],
+            [X_SQUARE, O_SQUARE, BLANK, BLANK, BLANK],
+            [X_SQUARE, O_SQUARE, BLANK, BLANK, BLANK],
+            [BLANK, BLANK, BLANK, BLANK, BLANK],
         ]
         expected = [
-            ['X', 'O', ' ', ' ', ' '],
-            ['X', 'O', ' ', ' ', ' '],
-            ['X', 'O', ' ', ' ', ' '],
-            ['X', 'O', ' ', ' ', ' '],
-            [' ', 'O', ' ', ' ', ' '],
+            [X_SQUARE, O_SQUARE, BLANK, BLANK, BLANK],
+            [X_SQUARE, O_SQUARE, BLANK, BLANK, BLANK],
+            [X_SQUARE, O_SQUARE, BLANK, BLANK, BLANK],
+            [X_SQUARE, O_SQUARE, BLANK, BLANK, BLANK],
+            [BLANK, O_SQUARE, BLANK, BLANK, BLANK],
         ]
         board = mcts.findNextMove(board, board.P1)
         print("Final board : ")
@@ -84,22 +85,22 @@ class TestMonteCarlo(unittest.TestCase):
         mcts = MonteCarloTreeSearch(timeout=30, size_board=7)
         board_2 = Board(size=7)
         board_2.board = [
-            ['X', 'O', ' ', ' ', ' ', ' ', ' '],
-            ['X', 'O', ' ', ' ', ' ', ' ', ' '],
-            ['X', 'O', ' ', ' ', ' ', ' ', ' '],
-            ['X', 'O', ' ', ' ', ' ', ' ', ' '],
-            [' ', ' ', ' ', ' ', ' ', ' ', ' '],
-            [' ', ' ', ' ', ' ', ' ', ' ', ' '],
-            [' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [X_SQUARE, O_SQUARE, BLANK, BLANK, BLANK, BLANK, BLANK],
+            [X_SQUARE, O_SQUARE, BLANK, BLANK, BLANK, BLANK, BLANK],
+            [X_SQUARE, O_SQUARE, BLANK, BLANK, BLANK, BLANK, BLANK],
+            [X_SQUARE, O_SQUARE, BLANK, BLANK, BLANK, BLANK, BLANK],
+            [BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK],
+            [BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK],
+            [BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK],
         ]
         expected = [
-            ['X', 'O', ' ', ' ', ' ', ' ', ' '],
-            ['X', 'O', ' ', ' ', ' ', ' ', ' '],
-            ['X', 'O', ' ', ' ', ' ', ' ', ' '],
-            ['X', 'O', ' ', ' ', ' ', ' ', ' '],
-            [' ', 'O', ' ', ' ', ' ', ' ', ' '],
-            [' ', ' ', ' ', ' ', ' ', ' ', ' '],
-            [' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [X_SQUARE, O_SQUARE, BLANK, BLANK, BLANK, BLANK, BLANK],
+            [X_SQUARE, O_SQUARE, BLANK, BLANK, BLANK, BLANK, BLANK],
+            [X_SQUARE, O_SQUARE, BLANK, BLANK, BLANK, BLANK, BLANK],
+            [X_SQUARE, O_SQUARE, BLANK, BLANK, BLANK, BLANK, BLANK],
+            [BLANK, O_SQUARE, BLANK, BLANK, BLANK, BLANK, BLANK],
+            [BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK],
+            [BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK],
         ]
         board = mcts.findNextMove(board_2, board_2.P1)
 
@@ -112,22 +113,22 @@ class TestMonteCarlo(unittest.TestCase):
         mcts = MonteCarloTreeSearch(timeout=30, size_board=7)
         board_2 = Board(size=7)
         board_2.board = [
-            ['X', 'O', ' ', ' ', ' ', ' ', ' '],
-            ['X', 'O', ' ', ' ', ' ', ' ', ' '],
-            ['X', 'O', ' ', ' ', ' ', ' ', ' '],
-            ['X', ' ', ' ', ' ', ' ', ' ', ' '],
-            [' ', 'O', ' ', ' ', ' ', ' ', ' '],
-            [' ', ' ', ' ', ' ', ' ', ' ', ' '],
-            [' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [X_SQUARE, O_SQUARE, BLANK, BLANK, BLANK, BLANK, BLANK],
+            [X_SQUARE, O_SQUARE, BLANK, BLANK, BLANK, BLANK, BLANK],
+            [X_SQUARE, O_SQUARE, BLANK, BLANK, BLANK, BLANK, BLANK],
+            [X_SQUARE, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK],
+            [BLANK, O_SQUARE, BLANK, BLANK, BLANK, BLANK, BLANK],
+            [BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK],
+            [BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK],
         ]
         expected = [
-            ['X', 'O', ' ', ' ', ' ', ' ', ' '],
-            ['X', 'O', ' ', ' ', ' ', ' ', ' '],
-            ['X', 'O', ' ', ' ', ' ', ' ', ' '],
-            ['X', 'O', ' ', ' ', ' ', ' ', ' '],
-            [' ', 'O', ' ', ' ', ' ', ' ', ' '],
-            [' ', ' ', ' ', ' ', ' ', ' ', ' '],
-            [' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [X_SQUARE, O_SQUARE, BLANK, BLANK, BLANK, BLANK, BLANK],
+            [X_SQUARE, O_SQUARE, BLANK, BLANK, BLANK, BLANK, BLANK],
+            [X_SQUARE, O_SQUARE, BLANK, BLANK, BLANK, BLANK, BLANK],
+            [X_SQUARE, O_SQUARE, BLANK, BLANK, BLANK, BLANK, BLANK],
+            [BLANK, O_SQUARE, BLANK, BLANK, BLANK, BLANK, BLANK],
+            [BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK],
+            [BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK],
         ]
         board = mcts.findNextMove(board_2, board_2.P1)
 
@@ -142,47 +143,47 @@ class TestMonteCarlo(unittest.TestCase):
         mcts = MonteCarloTreeSearch(timeout=1800, size_board=19)
         board_2 = Board(size=19)
         board_2.board = [
-            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-            [' ', ' ', ' ', ' ', ' ', 'O', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-            [' ', ' ', ' ', ' ', ' ', 'O', 'O', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-            [' ', ' ', ' ', ' ', ' ', 'O', 'X', 'O', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-            [' ', ' ', ' ', ' ', ' ', 'X', 'X', 'X', 'O', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-            [' ', ' ', ' ', ' ', ' ', 'O', 'X', 'X', 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK],
+            [BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK],
+            [BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK],
+            [BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK],
+            [BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK],
+            [BLANK, BLANK, BLANK, BLANK, BLANK, O_SQUARE, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK],
+            [BLANK, BLANK, BLANK, BLANK, BLANK, O_SQUARE, O_SQUARE, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK],
+            [BLANK, BLANK, BLANK, BLANK, BLANK, O_SQUARE, X_SQUARE, O_SQUARE, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK],
+            [BLANK, BLANK, BLANK, BLANK, BLANK, X_SQUARE, X_SQUARE, X_SQUARE, O_SQUARE, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK],
+            [BLANK, BLANK, BLANK, BLANK, BLANK, O_SQUARE, X_SQUARE, X_SQUARE, X_SQUARE, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK],
+            [BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK],
+            [BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK],
+            [BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK],
+            [BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK],
+            [BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK],
+            [BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK],
+            [BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK],
+            [BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK],
+            [BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK],
         ]
 
         expected = [
-            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-            [' ', ' ', ' ', ' ', ' ', 'O', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-            [' ', ' ', ' ', ' ', ' ', 'O', 'O', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-            [' ', ' ', ' ', ' ', ' ', 'O', 'X', 'O', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-            [' ', ' ', ' ', ' ', ' ', 'X', 'X', 'X', 'O', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-            [' ', ' ', ' ', ' ', ' ', 'O', 'X', 'X', 'X', 'O', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK],
+            [BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK],
+            [BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK],
+            [BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK],
+            [BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK],
+            [BLANK, BLANK, BLANK, BLANK, BLANK, O_SQUARE, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK],
+            [BLANK, BLANK, BLANK, BLANK, BLANK, O_SQUARE, O_SQUARE, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK],
+            [BLANK, BLANK, BLANK, BLANK, BLANK, O_SQUARE, X_SQUARE, O_SQUARE, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK],
+            [BLANK, BLANK, BLANK, BLANK, BLANK, X_SQUARE, X_SQUARE, X_SQUARE, O_SQUARE, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK],
+            [BLANK, BLANK, BLANK, BLANK, BLANK, O_SQUARE, X_SQUARE, X_SQUARE, X_SQUARE, O_SQUARE, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK],
+            [BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK],
+            [BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK],
+            [BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK],
+            [BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK],
+            [BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK],
+            [BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK],
+            [BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK],
+            [BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK],
+            [BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK],
         ]
         board = mcts.findNextMove(board_2, board_2.P1)
 

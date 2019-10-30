@@ -3,13 +3,14 @@ import math
 from srcs.Board import Board
 from srcs.MonteCarlo import MonteCarloTreeSearch
 import numpy as np
+import time
 from srcs.macros import *
 
 
 class Brain:
     def __init__(self):
         self.map_size = 0
-        self.board = []
+        self.board = None
         self.in_board = False
         self.started = False
 
@@ -42,11 +43,11 @@ class Brain:
                 self.started = True
                 return "OK"
             elif stdin_input[0] == "TURN":
-#                start = time.time()
+                start = time.time()
                 self._add_char_to_board(X_SQUARE, stdin_input[1])
                 result = self._solve(self.board)
                 self._add_char_to_board(O_SQUARE, result)
-#                print("Temps pour resoudre : ", time.time() - start)
+                print("Temps pour resoudre : ", time.time() - start)
                 return result
             elif stdin_input[0] == "BEGIN":
                 pos = str(math.floor(self.map_size / 2)) + "," + \
@@ -68,18 +69,10 @@ class Brain:
         else:
             return self._board_fill(stdin_input)
 
-    def _board_diff(self, board_1, board_2):
-        for y in range(len(board_1)):
-            for x in range(len(board_2)):
-                if board_1[y][x] != board_2[y][x]:
-                    return str(x) + "," + str(y)
-
     def _solve(self, board):
-        mcts = MonteCarloTreeSearch(timeout=3.2, size_board=len(board))
-        tmp_board = Board(np.asarray(board))
-        new_board = Board(np.asarray(board))
-        new_board = mcts.findNextMove(new_board, P1)
-        return self._board_diff(new_board.board, tmp_board.board)
+        mcts = MonteCarloTreeSearch(timeout=4.8, size_board=len(board))
+        new_board = mcts.findNextMove(Board(board), P1)
+        return new_board.lastest_move.to_string()
 
     def board_loop(self):
         queue = Queue()

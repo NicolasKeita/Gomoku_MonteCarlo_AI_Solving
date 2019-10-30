@@ -26,12 +26,6 @@ class MonteCarloTreeSearch:
         self.root_node = root_node
         self.counter = 0
 
-        """
-        immediat_victory_detected = self._detect_immediat_victory(root_node)
-        if immediat_victory_detected:
-            return immediat_victory_detected
-        """
-
         start = time.time()
         while time.time() - start < self.timeout:
             promising_node = self._select_promising_node(root_node)
