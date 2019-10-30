@@ -1,21 +1,9 @@
 from queue import Queue
 import math
-from Board import Board
-from MonteCarlo import MonteCarloTreeSearch
-import time
+from srcs.Board import Board
+from srcs.MonteCarlo import MonteCarloTreeSearch
 import numpy as np
-
-UNDEFINED = "Undefined"
-
-BLANK = ' '
-X_SQUARE = 'X'
-O_SQUARE = 'O'
-WIN_CONDITION = 3
-
-IN_PROGRESS = -1
-DRAW = 0
-P1 = 1
-P2 = 2
+from srcs.macros import *
 
 
 class Brain:
@@ -24,18 +12,6 @@ class Brain:
         self.board = []
         self.in_board = False
         self.started = False
-        self._pos_to_do = "BUG"
-        self.debug = 0
-
-    def _create_board_(self):
-        add = []
-        for i in range(0, self.map_size):
-            for j in range(0, self.map_size):
-                add.append(BLANK)
-                j += 1
-            self.board.append(add.copy())
-            add.clear()
-            i += 1
 
     def _add_char_to_board(self, char, positions):
         positions = positions.split(',')
@@ -51,10 +27,10 @@ class Brain:
             new_input = stdin_input[0].split(',')
             if int(new_input[2]) == 1:
                 self.board[int(new_input[0])][int(new_input[1])] = O_SQUARE
-                return "WAIT"
+                return None
             elif int(new_input[2]) == 2:
                 self.board[int(new_input[0])][int(new_input[1])] = X_SQUARE
-                return "WAIT"
+                return None
 
     def think(self, stdin_input):
         if not self.in_board:
@@ -62,7 +38,7 @@ class Brain:
                 if int(stdin_input[1]) < 5:
                     return "ERROR"
                 self.map_size = int(stdin_input[1])
-                self._create_board_()
+                self.board = np.zeros(shape=(self.map_size, self.map_size))
                 self.started = True
                 return "OK"
             elif stdin_input[0] == "TURN":
@@ -81,7 +57,7 @@ class Brain:
                 if not self.started:
                     return "ERROR"
                 self.in_board = True
-                return "WAIT"
+                return None
             elif stdin_input[0] == "END":
                 return "END"
             elif stdin_input[0] == "ABOUT":

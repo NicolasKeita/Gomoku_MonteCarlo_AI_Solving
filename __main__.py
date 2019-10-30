@@ -2,7 +2,7 @@
 
 from queue import Queue
 from threading import Thread
-from brain import Brain
+from srcs.brain import Brain
 
 
 def get_input(queue):
@@ -39,7 +39,7 @@ def main():
             except (ValueError, IndexError):
                 decision = "ERROR"
             finally:
-                if decision != "WAIT":
+                if decision:
                     print(decision, end="\r\n")
     return 0
 

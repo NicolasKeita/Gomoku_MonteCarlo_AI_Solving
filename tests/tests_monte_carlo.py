@@ -1,9 +1,8 @@
 import unittest
-from UCT import UCT
-from State import State
-from Tnode import Tree
-from Board import Board, Position
-from MonteCarlo import MonteCarloTreeSearch
+from srcs.UCT import UCT
+from srcs.Tnode import Tree
+from srcs.Board import Board, Position
+from srcs.MonteCarlo import MonteCarloTreeSearch
 import numpy as np
 
 

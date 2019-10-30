@@ -1,25 +1,10 @@
 
 import time
 import copy
-from UCT import UCT
+from srcs.UCT import UCT
 import random
-from Tnode import Tree, Tnode
-from Board import Position
-
-INFINITY = 9999
-WIN_SCORE = 10
-
-X_WINS = 2
-O_WINS = 1
-
-IN_PROGRESS = -1
-DRAW = 0
-P1 = 1
-P2 = 2
-
-BLANK = ' '
-X_SQUARE = 'X'
-O_SQUARE = 'O'
+from srcs.Tnode import Tree, Tnode
+from srcs.macros import *
 
 
 class MonteCarloTreeSearch:
