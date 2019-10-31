@@ -70,7 +70,7 @@ class Brain:
             return self._board_fill(stdin_input)
 
     def _solve(self, board):
-        mcts = MonteCarloTreeSearch(timeout=4.8, size_board=len(board))
+        mcts = MonteCarloTreeSearch(timeout=20, size_board=len(board))
         new_board = mcts.findNextMove(Board(board), P1)
         return new_board.lastest_move.to_string()
 

@@ -2,14 +2,9 @@ import random
 from srcs.State import State
 
 
-class Tree:
-    def __init__(self):
-        self.root = Tnode()
-
-
 class Tnode:
-    def __init__(self, state=None):
-        self.state = State() if state is None else state
+    def __init__(self, state):
+        self.state = state
         self.parent = None
         self.childs = []
 
@@ -18,6 +13,4 @@ class Tnode:
         return max(self.childs, key=func)
 
     def get_random_child_node(self):
-        possible_moves_count = len(self.childs)
-        r = int(random.random() * possible_moves_count)
-        return self.childs[r]
+        return random.choice(self.childs)
