@@ -89,7 +89,6 @@ class TestMonteCarlo(unittest.TestCase):
         self.assertTrue(np.array_equal(board.board, expected))
 
     def test_find_next_move_one_shoot(self):
-        return
         mcts = MonteCarloTreeSearch(timeout=4.3, size_board=7)
         board_2 = Board(np.array([
             [X_SQUARE, O_SQUARE, BLANK, BLANK, BLANK, BLANK, BLANK],
@@ -117,7 +116,6 @@ class TestMonteCarlo(unittest.TestCase):
         self.assertTrue(np.array_equal(board.board, expected))
 
     def test_find_next_move_one_shoot_7_2(self):
-        return
         mcts = MonteCarloTreeSearch(timeout=4.3, size_board=7)
         board_2 = Board(np.array([
             [X_SQUARE, O_SQUARE, BLANK, BLANK, BLANK, BLANK, BLANK],
@@ -145,7 +143,8 @@ class TestMonteCarlo(unittest.TestCase):
         self.assertTrue(np.array_equal(board.board, expected))
 
     def test_find_next_move_one_shoot_7_3(self):
-        mcts = MonteCarloTreeSearch(timeout=4.3, size_board=19)
+        return
+        mcts = MonteCarloTreeSearch(timeout=100, size_board=19)
         board_2 = Board(np.array([
             [BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK,
              BLANK, BLANK, BLANK, BLANK],

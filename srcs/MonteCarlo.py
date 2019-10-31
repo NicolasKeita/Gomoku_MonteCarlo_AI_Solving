@@ -1,6 +1,5 @@
 
 import time
-import copy
 from srcs.UCT import UCT
 import random
 from srcs.Tnode import Tnode
@@ -22,46 +21,25 @@ class MonteCarloTreeSearch:
     def findNextMove(self, board, player_no):
         self.opponent = 3 - player_no
         self.root_node = Tnode(State(board=board))
-#        root_node.state.board = board
         self.root_node.state.player_no = self.opponent
         self.counter = 0
 
         start = time.time()
         while time.time() - start < self.timeout:
-            print("wtf1")
             promising_node = self._select_promising_node(self.root_node)
-            #print("promissing node:")
-            #promising_node.state.board.print()
-            print("wtf2")
             if promising_node.state.board.check_status() == IN_PROGRESS:
                 self._expand_node(promising_node)
             node_to_explore = promising_node
-            print("wtf3")
-            #if self.counter > 2:
-                #re.re()
             if len(promising_node.childs) > 0:
                 node_to_explore = promising_node.get_random_child_node()
-            print("wtf4")
-            #print("node_to_explore")
-            #node_to_explore.state.board.print()
-            my_copy = node_to_explore.copy()
-            print("wtf4.3")
-            playout_result = self._simulate_random_playout(my_copy)
-            print("wtf5")
+            playout_result = self._simulate_random_playout(node_to_explore.copy())
             self._back_propagation(node_to_explore, playout_result)
-            print("wtf6")
             self.counter += 1
         winner_node = self.root_node.get_child_with_max_score()
         return winner_node.state.board
 
     def _expand_node(self, promising_node):
-        print("wtf2.1")
         possible_states = promising_node.state.get_all_possible_states()
-        #print("all possibles states")
-        #for state in possible_states:
-        #    print("state")
-        #    state.board.print()
-        print("wtf2.2")
         for state in possible_states:
             new_node = Tnode(state)
             new_node.parent = promising_node
@@ -76,27 +54,14 @@ class MonteCarloTreeSearch:
         return node
 
     def _simulate_random_playout(self, node_to_explore):
-        temp_node = node_to_explore
-        board_status = temp_node.state.board.check_status()
+        board_status = node_to_explore.state.board.check_status()
         if board_status == self.opponent:
             node_to_explore.parent.state.win_score = -INFINITY
             return board_status
-        start2 = time.time()
-        i = 0
-        #self.counter +=1
         while board_status == IN_PROGRESS:
-            #print("Loop number :", i)
-            start = time.time()
-            temp_node.state.toggle_player()
-            temp_node.state.random_play()
-            #print("Time to do random play", time.time() - start)
-            start3 = time.time()
-            board_status = temp_node.state.board.check_status()
-            #print("Time to do check_status", time.time() - start3)
-            #print("Time to do oneloop", time.time() - start)
-            i+=1
-        #print("TIME TO finish one simulation", time.time() - start2)
-        #print("counter = ", self.counter)
+            node_to_explore.state.toggle_player()
+            node_to_explore.state.random_play()
+            board_status = node_to_explore.state.board.check_status()
         return board_status
 
     def _back_propagation(self, node_to_explore, player_no):
