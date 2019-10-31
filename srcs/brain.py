@@ -5,6 +5,7 @@ from srcs.MonteCarlo import MonteCarloTreeSearch
 import numpy as np
 import time
 from srcs.macros import *
+import sys
 
 
 class Brain:
@@ -47,7 +48,7 @@ class Brain:
                 self._add_char_to_board(X_SQUARE, stdin_input[1])
                 result = self._solve(self.board)
                 self._add_char_to_board(O_SQUARE, result)
-                print("Temps pour resoudre : ", time.time() - start)
+                print("Temps pour resoudre : ", time.time() - start, file=sys.stderr)
                 return result
             elif stdin_input[0] == "BEGIN":
                 pos = str(math.floor(self.map_size / 2)) + "," + \
@@ -70,7 +71,7 @@ class Brain:
             return self._board_fill(stdin_input)
 
     def _solve(self, board):
-        mcts = MonteCarloTreeSearch(timeout=20, size_board=len(board))
+        mcts = MonteCarloTreeSearch(timeout=4.3, size_board=len(board))
         new_board = mcts.findNextMove(Board(board), P1)
         return new_board.lastest_move.to_string()
 
