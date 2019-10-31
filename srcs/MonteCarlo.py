@@ -41,11 +41,15 @@ class MonteCarloTreeSearch:
                 #re.re()
             if len(promising_node.childs) > 0:
                 node_to_explore = promising_node.get_random_child_node()
+            print("wtf4")
             #print("node_to_explore")
             #node_to_explore.state.board.print()
-            my_copy = copy.deepcopy(node_to_explore)
+            my_copy = node_to_explore.copy()
+            print("wtf4.3")
             playout_result = self._simulate_random_playout(my_copy)
+            print("wtf5")
             self._back_propagation(node_to_explore, playout_result)
+            print("wtf6")
             self.counter += 1
         winner_node = self.root_node.get_child_with_max_score()
         return winner_node.state.board
@@ -99,9 +103,9 @@ class MonteCarloTreeSearch:
         temp_node = node_to_explore
         while temp_node is not None:
             temp_node.state.visit_count += 1
-            self._debug_visit(temp_node)
+            #self._debug_visit(temp_node)
             if temp_node.state.player_no == player_no:
-                self._debug_score(temp_node)
+                #self._debug_score(temp_node)
                 temp_node.state.add_score(WIN_SCORE)
             temp_node = temp_node.parent
 

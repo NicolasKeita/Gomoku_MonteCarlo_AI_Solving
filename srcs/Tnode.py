@@ -1,5 +1,6 @@
 import random
 from srcs.State import State
+from copy import deepcopy
 
 
 class Tnode:
@@ -14,3 +15,10 @@ class Tnode:
 
     def get_random_child_node(self):
         return random.choice(self.childs)
+
+    def copy(self):
+        #new_node = Tnode(deepcopy(self.state))
+        new_node = Tnode(self.state.copy())
+        new_node.parent = self.parent
+        new_node.childs = self.childs
+        return new_node

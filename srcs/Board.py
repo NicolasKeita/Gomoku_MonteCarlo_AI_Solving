@@ -34,6 +34,7 @@ class Board:
             self.board = two_dim_board
             self.size = np.shape(self.board)[0]
             self._update_empty_positions()
+            #self.empty_pos = empty_pos.copy()
 
     def perform_move(self, player, p):
         symbol = O_SQUARE if player == self.P1 else X_SQUARE

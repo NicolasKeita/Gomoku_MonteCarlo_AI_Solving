@@ -31,7 +31,6 @@ class State:
         #    print("y = ", pos.y, "x = ", pos.x)
         #print("le board avant")
         #self.board.print()
-        #print("empty pos len avant", len(self.board.empty_pos))
         i = 0
         start_3 = time.time()
         for pos in self.board.empty_pos:
@@ -49,7 +48,7 @@ class State:
             new_state.board.perform_move(new_state.player_no, pos)
             #print("temps pour perform move", time.time() - start)
             possible_states.append(new_state)
-            #print("temps pour loop_all_posible_states", time.time() - start_2)
+            #print("temps pour loop_all_posible_states", time.time() - start_2, " I = ", i, "size empty pos : ", len(self.board.empty_pos))
             i += 1
         print("Temps pour recup all possible states : ", time.time() - start_3)
         return np.array(possible_states)
