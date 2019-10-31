@@ -8,19 +8,22 @@ class UCT:
         if node_visit == 0:
             return INFINITY
         return ((node_win_score / node_visit) +
-                1.41 * np.sqrt(np.log(total_visit) / node_visit))
+                1.41 * np.sqrt(2 * np.log(total_visit) / node_visit))
 
     @staticmethod
     def find_best_node_with_uct(node):
         parent_visit = node.state.visit_count
-        """
-        for child in node.childs:
-            print("pos :", child.state.board.lastest_move.to_string(), "visit count : ", child.state.visit_count)
-        """
 
-
-        def func(x): return UCT.uct_value(parent_visit,
-                                          x.state.win_score,
-                                          x.state.visit_count)
-
-        return max(node.childs, key=func)
+        def func(x):
+            #if not x.state.board.is_there_coin_around_last_move():
+            #    return -INFINITY
+            #else:
+            return UCT.uct_value(parent_visit,
+                                     x.state.win_score,
+                                     x.state.visit_count)
+        m = max(node.childs, key=func)
+        print("promising node", m.state.board.lastest_move.to_string())
+        m.state.board.print()
+        if m.state.board.lastest_move.x == 2:
+            re.re()
+        return m

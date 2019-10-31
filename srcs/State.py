@@ -35,6 +35,8 @@ class State:
         return 3 - self.player_no
 
     def random_play(self):
+        print("THE BOARD")
+        self.board.print()
         self.board.perform_move(self.player_no,
                                 random.choice(self.board.empty_pos))
 
