@@ -36,7 +36,7 @@ def main():
                 break
             try:
                 decision = b.think(stdin_input)
-            except (IndexError):
+            except (ValueError, IndexError):
                 decision = "ERROR"
             finally:
                 if decision:
