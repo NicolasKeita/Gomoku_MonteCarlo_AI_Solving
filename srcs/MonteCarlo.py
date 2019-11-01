@@ -1,12 +1,10 @@
-import time
 from srcs.UCT import UCT
 import random
 from srcs.Tnode import Tnode
 from srcs.macros import *
 import numpy as np
+import time
 from srcs.State import State
-from multiprocessing import Process, Pool, Lock, Value, Manager
-from concurrent.futures import ThreadPoolExecutor
 
 
 class MonteCarloTreeSearch:
@@ -20,23 +18,14 @@ class MonteCarloTreeSearch:
         self.root_node = None
 
     def execute_the_four_steps(self):
-        start = time.time()
-        #print("Step 1")
         promising_node = self._select_promising_node(self.root_node)
-        start_2 = time.time()
-        #print("Step 2, time for step 1 was : ", time.time() - start)
         if promising_node.state.board.check_status() == IN_PROGRESS:
             self._expand_node(promising_node)
         node_to_explore = promising_node
         if len(promising_node.childs) > 0:
             node_to_explore = promising_node.get_random_child_node()
-        start_3 = time.time()
-        #print("Step 3", "time for step 2 was : ", time.time() - start_2)
         playout_result = self._simulate_random_playout(node_to_explore)
-        start_4 = time.time()
-        #print("Step 4 time for step 3 was : ", time.time() - start_3)
         self._back_propagation(node_to_explore, playout_result)
-        #print("End : ", time.time() - start_4)
 
     def findNextMove(self, board, player_no):
         self.opponent = 3 - player_no
@@ -77,9 +66,7 @@ class MonteCarloTreeSearch:
         while board_status == IN_PROGRESS:
             node_being_simulated.state.toggle_player()
             node_being_simulated.state.random_play()
-            start_2 = time.time()
             board_status = node_being_simulated.state.board.check_status()
-            #print("temps start2", time.time() - start_2)
         return board_status
 
     def _back_propagation(self, node_to_explore, player_no):

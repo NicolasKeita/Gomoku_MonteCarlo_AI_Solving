@@ -1,9 +1,7 @@
-import copy
 import random
 from srcs.Board import Board
 from srcs.macros import *
 import numpy as np
-import time
 
 
 class State:

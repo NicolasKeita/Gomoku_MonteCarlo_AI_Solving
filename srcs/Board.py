@@ -1,4 +1,3 @@
-from copy import deepcopy
 import numpy as np
 from srcs.macros import *
 
@@ -36,7 +35,7 @@ class Board:
         self.lastest_move = Position(p.y, p.x)
         # print("pos = x", p.x, "y = ", p.y)
         self._add_pos_to_the_lastest_move(p)
-        # self._update_empty_positions()
+        #self._update_empty_positions()
 
     def check_status(self):
         # print("DEBUT")
@@ -66,66 +65,106 @@ class Board:
         return True
 
     def is_there_coin_around_last_move(self, y, x):
+        """
+        if x + 1 < self.size:
+            if self.board[y][x + 1] == BLANK:
+                return True
+        if x - 1 < self.size and x - 1 >= 0:
+            if self.board[y][x - 1] > BLANK:
+                return True
+        if x + 2 < self.size:
+            if self.board[y][x + 2] > BLANK:
+                return True
+        if x - 2 < self.size and x - 2 >= 0:
+            if self.board[y][x - 2] > BLANK:
+                return True
+        if y + 1 < self.size:
+            if self.board[y + 1][x] > BLANK:
+                return True
+        if y - 1 < self.size and y - 1 >= 0:
+            if self.board[y - 1][x] > BLANK:
+                return True
+        if y + 2 < self.size:
+            if self.board[y + 2][x] > BLANK:
+                return True
+        if y - 2 < self.size and y - 2 >= 0:
+            if self.board[y - 2][x] > BLANK:
+                return True
+        if x + 1 < self.size and y + 1 < self.size:
+            if self.board[y + 1][x + 1] > BLANK:
+                return True
+        if x + 2 < self.size and y + 2 < self.size:
+            if self.board[y + 2][x + 2] > BLANK:
+                return True
+        if x - 1 < self.size and y - 1 < self.size and x - 1 >= 0 and y - 1 >= 0:
+            if self.board[y - 1][x - 1] > BLANK:
+                return True
+        if x - 2 < self.size and y - 2 < self.size and x - 2 >= 0 and y - 2 >= 0:
+            if self.board[y - 2][x - 2] > BLANK:
+                return True
+        if x + 1 < self.size and y - 1 < self.size and y - 1 >= 0:
+            if self.board[y - 1][x + 1] > BLANK:
+                return True
+        if x + 2 < self.size and y - 2 < self.size and y - 2 >= 0:
+            if self.board[y - 2][x + 2] > BLANK:
+                return True
+        if x - 1 < self.size and y + 1 < self.size and x - 1 >= 0:
+            if self.board[y + 1][x - 1] > BLANK:
+                return True
+        if x - 2 < self.size and y + 2 < self.size:
+            if self.board[y + 2][x - 2] > BLANK:
+                return True
+        return False
+        """
+
         if x + 1 < self.size:
             if self.board[y][x + 1] > BLANK:
                 return True
         if x - 1 < self.size:
             if self.board[y][x - 1] > BLANK:
                 return True
-        """
         if x + 2 < self.size:
             if self.board[y][x + 2] > BLANK:
                 return True
         if x - 2 < self.size:
             if self.board[y][x - 2] > BLANK:
                 return True
-        """
         if y + 1 < self.size:
             if self.board[y + 1][x] > BLANK:
                 return True
         if y - 1 < self.size:
             if self.board[y - 1][x] > BLANK:
                 return True
-        """
         if y + 2 < self.size:
             if self.board[y + 2][x] > BLANK:
                 return True
         if y - 2 < self.size:
             if self.board[y - 2][x] > BLANK:
                 return True
-        """
         if x + 1 < self.size and y + 1 < self.size:
             if self.board[y + 1][x + 1] > BLANK:
                 return True
-        """
         if x + 2 < self.size and y + 2 < self.size:
             if self.board[y + 2][x + 2] > BLANK:
                 return True
-        """
         if x - 1 < self.size and y - 1 < self.size:
             if self.board[y - 1][x - 1] > BLANK:
                 return True
-        """
         if x - 2 < self.size and y - 2 < self.size:
             if self.board[y - 2][x - 2] > BLANK:
                 return True
-        """
         if x + 1 < self.size and y - 1 < self.size:
             if self.board[y - 1][x + 1] > BLANK:
                 return True
-        """
         if x + 2 < self.size and y - 2 < self.size:
             if self.board[y - 2][x + 2] > BLANK:
                 return True
-        """
         if x - 1 < self.size and y + 1 < self.size:
             if self.board[y + 1][x - 1] > BLANK:
                 return True
-        """"
         if x - 2 < self.size and y + 2 < self.size:
             if self.board[y + 2][x - 2] > BLANK:
                 return True
-        """
         return False
 
     def _add_pos_to_the_lastest_move(self, p):
@@ -135,49 +174,49 @@ class Board:
             if self.board[y][x + 1] == BLANK:
                 self.empty_pos.append(Position(y=y, x=x + 1))
         if x - 1 < self.size and x - 1 >= 0:
-            if self.board[y][x - 1] > BLANK:
+            if self.board[y][x - 1] == BLANK:
                 self.empty_pos.append(Position(y=y, x=x - 1))
         if x + 2 < self.size:
-            if self.board[y][x + 2] > BLANK:
+            if self.board[y][x + 2] == BLANK:
                 self.empty_pos.append(Position(y=y, x=x + 2))
         if x - 2 < self.size and x - 2 >= 0:
-            if self.board[y][x - 2] > BLANK:
+            if self.board[y][x - 2] == BLANK:
                 self.empty_pos.append(Position(y=y, x=x - 2))
         if y + 1 < self.size:
-            if self.board[y + 1][x] > BLANK:
+            if self.board[y + 1][x] == BLANK:
                 self.empty_pos.append(Position(y=y + 1, x=x))
         if y - 1 < self.size and y - 1 >= 0:
-            if self.board[y - 1][x] > BLANK:
+            if self.board[y - 1][x] == BLANK:
                 self.empty_pos.append(Position(y=y - 1, x=x))
         if y + 2 < self.size:
-            if self.board[y + 2][x] > BLANK:
+            if self.board[y + 2][x] == BLANK:
                 self.empty_pos.append(Position(y=y + 2, x=x))
         if y - 2 < self.size and y - 2 >= 0:
-            if self.board[y - 2][x] > BLANK:
+            if self.board[y - 2][x] == BLANK:
                 self.empty_pos.append(Position(y=y - 2, x=x))
         if x + 1 < self.size and y + 1 < self.size:
-            if self.board[y + 1][x + 1] > BLANK:
+            if self.board[y + 1][x + 1] == BLANK:
                 self.empty_pos.append(Position(y=y + 1, x=x + 1))
         if x + 2 < self.size and y + 2 < self.size:
-            if self.board[y + 2][x + 2] > BLANK:
+            if self.board[y + 2][x + 2] == BLANK:
                 self.empty_pos.append(Position(y=y + 2, x=x + 2))
         if x - 1 < self.size and y - 1 < self.size and x - 1 >= 0 and y - 1 >= 0:
-            if self.board[y - 1][x - 1] > BLANK:
+            if self.board[y - 1][x - 1] == BLANK:
                 self.empty_pos.append(Position(y=y - 1, x=x - 1))
         if x - 2 < self.size and y - 2 < self.size and x - 2 >= 0 and y - 2 >= 0:
-            if self.board[y - 2][x - 2] > BLANK:
+            if self.board[y - 2][x - 2] == BLANK:
                 self.empty_pos.append(Position(y=y - 2, x=x - 2))
         if x + 1 < self.size and y - 1 < self.size and y - 1 >= 0:
-            if self.board[y - 1][x + 1] > BLANK:
+            if self.board[y - 1][x + 1] == BLANK:
                 self.empty_pos.append(Position(y=y - 1, x=x + 1))
         if x + 2 < self.size and y - 2 < self.size and y - 2 >= 0:
-            if self.board[y - 2][x + 2] > BLANK:
+            if self.board[y - 2][x + 2] == BLANK:
                 self.empty_pos.append(Position(y=y - 2, x=x + 2))
         if x - 1 < self.size and y + 1 < self.size and x - 1 >= 0:
-            if self.board[y + 1][x - 1] > BLANK:
+            if self.board[y + 1][x - 1] == BLANK:
                 self.empty_pos.append(Position(y=y + 1, x=x - 1))
         if x - 2 < self.size and y + 2 < self.size:
-            if self.board[y + 2][x - 2] > BLANK:
+            if self.board[y + 2][x - 2] == BLANK:
                 self.empty_pos.append(Position(y=y + 2, x=x - 2))
 
     def get_runs(self, raw_grid, run_size):
