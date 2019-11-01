@@ -24,6 +24,4 @@ class UCT:
         m = max(node.childs, key=func)
         print("promising node", m.state.board.lastest_move.to_string())
         m.state.board.print()
-        if m.state.board.lastest_move.x == 2:
-            re.re()
         return m

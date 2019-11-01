@@ -140,9 +140,8 @@ class TestMonteCarlo(unittest.TestCase):
 
         self.assertTrue(np.array_equal(board.board, expected))
 
-
     def test_find_next_move_one_shoot_7_4(self):
-        mcts = MonteCarloTreeSearch(timeout=17, size_board=19)
+        mcts = MonteCarloTreeSearch(timeout=9, size_board=19)
         board_2 = Board(np.array([[B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
                                   [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
                                   [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],

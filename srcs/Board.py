@@ -34,13 +34,8 @@ class Board:
         symbol = O_SQUARE if player == self.P1 else X_SQUARE
         self.board[p.y][p.x] = symbol
         self.lastest_move = Position(p.y, p.x)
-        self._update_empty_positions()
-        '''
-        for i in range(len(self.empty_pos)):
-            if self.empty_pos[i].y == p.y and self.empty_pos[i].x == p.x:
-                self.empty_pos.pop(i)
-                return
-        '''
+        self._add_pos_to_the_lastest_move(p)
+        # self._update_empty_positions()
 
     def check_status(self):
         result = self._test_rows(self.board)
@@ -180,3 +175,67 @@ class Board:
                 return True
         """
         return False
+
+    def _add_pos_to_the_lastest_move(self, p):
+        x = p.x
+        y = p.y
+        if x + 1 < self.size:
+            if self.board[y][x + 1] == BLANK:
+                self.empty_pos.append(Position(y=y, x=x + 1))
+        if x - 1 < self.size:
+            if self.board[y][x - 1] > BLANK:
+                self.empty_pos.append(Position(y=y, x=x - 1))
+        """
+        if x + 2 < self.size:
+            if self.board[y][x + 2] > BLANK:
+                return True
+        if x - 2 < self.size:
+            if self.board[y][x - 2] > BLANK:
+                return True
+        """
+        if y + 1 < self.size:
+            if self.board[y + 1][x] > BLANK:
+                self.empty_pos.append(Position(y=y + 1, x=x))
+        if y - 1 < self.size:
+            if self.board[y - 1][x] > BLANK:
+                self.empty_pos.append(Position(y=y - 1, x=x))
+        """
+        if y + 2 < self.size:
+            if self.board[y + 2][x] > BLANK:
+                return True
+        if y - 2 < self.size:
+            if self.board[y - 2][x] > BLANK:
+                return True
+        """
+        if x + 1 < self.size and y + 1 < self.size:
+            if self.board[y + 1][x + 1] > BLANK:
+                self.empty_pos.append(Position(y=y + 1, x=x + 1))
+        """
+        if x + 2 < self.size and y + 2 < self.size:
+            if self.board[y + 2][x + 2] > BLANK:
+                return True
+        """
+        if x - 1 < self.size and y - 1 < self.size:
+            if self.board[y - 1][x - 1] > BLANK:
+                self.empty_pos.append(Position(y=y - 1, x=x - 1))
+        """
+        if x - 2 < self.size and y - 2 < self.size:
+            if self.board[y - 2][x - 2] > BLANK:
+                return True
+        """
+        if x + 1 < self.size and y - 1 < self.size:
+            if self.board[y - 1][x + 1] > BLANK:
+                self.empty_pos.append(Position(y=y - 1, x=x + 1))
+        """
+        if x + 2 < self.size and y - 2 < self.size:
+            if self.board[y - 2][x + 2] > BLANK:
+                return True
+        """
+        if x - 1 < self.size and y + 1 < self.size:
+            if self.board[y + 1][x - 1] > BLANK:
+                self.empty_pos.append(Position(y=y + 1, x=x - 1))
+        """"
+        if x - 2 < self.size and y + 2 < self.size:
+            if self.board[y + 2][x - 2] > BLANK:
+                return True
+        """
