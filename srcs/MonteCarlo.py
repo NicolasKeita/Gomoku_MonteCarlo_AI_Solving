@@ -8,8 +8,6 @@ from srcs.State import State
 from multiprocessing import Process, Pool, Lock, Value, Manager
 from concurrent.futures import ThreadPoolExecutor
 
-mutex = Lock()
-
 
 class MonteCarloTreeSearch:
     def __init__(self, timeout=4.8, size_board=19):
@@ -34,8 +32,7 @@ class MonteCarloTreeSearch:
             node_to_explore = promising_node.get_random_child_node()
         start_3 = time.time()
         #print("Step 3", "time for step 2 was : ", time.time() - start_2)
-        my_copy = node_to_explore.copy()
-        playout_result = self._simulate_random_playout(my_copy)
+        playout_result = self._simulate_random_playout(node_to_explore)
         start_4 = time.time()
         #print("Step 4 time for step 3 was : ", time.time() - start_3)
         self._back_propagation(node_to_explore, playout_result)
@@ -72,21 +69,24 @@ class MonteCarloTreeSearch:
         return node
 
     def _simulate_random_playout(self, node_to_explore):
-        board_status = node_to_explore.state.board.check_status()
+        node_being_simulated = node_to_explore.copy()
+        board_status = node_being_simulated.state.board.check_status()
         if board_status == self.opponent:
-            node_to_explore.parent.state.win_score = -INFINITY
+            node_being_simulated.parent.state.win_score = -INFINITY
             return board_status
         while board_status == IN_PROGRESS:
-            node_to_explore.state.toggle_player()
-            node_to_explore.state.random_play()
-            board_status = node_to_explore.state.board.check_status()
+            node_being_simulated.state.toggle_player()
+            node_being_simulated.state.random_play()
+            start_2 = time.time()
+            board_status = node_being_simulated.state.board.check_status()
+            #print("temps start2", time.time() - start_2)
         return board_status
 
     def _back_propagation(self, node_to_explore, player_no):
         temp_node = node_to_explore
         while temp_node is not None:
             temp_node.state.visit_count += 1
-            self._debug_visit(temp_node)
+            #self._debug_visit(temp_node)
             if temp_node.state.player_no == player_no:
                 #self._debug_score(temp_node)
                 temp_node.state.add_score(WIN_SCORE)

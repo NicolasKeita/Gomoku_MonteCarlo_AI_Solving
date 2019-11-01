@@ -7,17 +7,6 @@ import numpy as np
 
 
 class TestMonteCarlo(unittest.TestCase):
-    def test_diago(self):
-        b = Board(np.array([
-            [O_SQUARE, X_SQUARE, BLANK, BLANK, BLANK],
-            [BLANK, O_SQUARE, X_SQUARE, BLANK, BLANK],
-            [BLANK, BLANK, O_SQUARE, X_SQUARE, BLANK],
-            [X_SQUARE, BLANK, BLANK, O_SQUARE, BLANK],
-            [BLANK, BLANK, BLANK, BLANK, O_SQUARE],
-        ]))
-        result = b.test_diagonals()
-        self.assertTrue(result == b.P1)
-
     def test_find_next_move_one_shoot_5_1(self):
         return
         mcts = MonteCarloTreeSearch(timeout=4.3, size_board=5)
@@ -36,8 +25,8 @@ class TestMonteCarlo(unittest.TestCase):
             [BLANK, BLANK, BLANK, BLANK, O_SQUARE],
         ])
         board = mcts.findNextMove(board, board.P1)
-        print("Final board : ")
-        board.print()
+        #print("Final board : ")
+        #board.print()
         self.assertTrue(np.array_equal(board.board, expected))
 
     def test_find_next_move_one_shoot_5_2(self):
@@ -58,8 +47,8 @@ class TestMonteCarlo(unittest.TestCase):
             [O_SQUARE, O_SQUARE, O_SQUARE, O_SQUARE, O_SQUARE],
         ])
         board = mcts.findNextMove(board, board.P1)
-        print("Final board : ")
-        board.print()
+        #print("Final board : ")
+        #board.print()
         self.assertTrue(np.array_equal(board.board, expected))
 
     def test_find_next_move_one_shoot_5(self):
@@ -80,8 +69,8 @@ class TestMonteCarlo(unittest.TestCase):
             [BLANK, O_SQUARE, BLANK, BLANK, BLANK],
         ])
         board = mcts.findNextMove(board, board.P1)
-        print("Final board : ")
-        board.print()
+        #print("Final board : ")
+        #board.print()
         self.assertTrue(np.array_equal(board.board, expected))
 
     def test_find_next_move_one_shoot(self):
@@ -107,14 +96,13 @@ class TestMonteCarlo(unittest.TestCase):
         ])
         board = mcts.findNextMove(board_2, board_2.P1)
 
-        print("Final board : ")
-        board.print()
-
+        #print("Final board : ")
+        #board.print()
         self.assertTrue(np.array_equal(board.board, expected))
 
     def test_find_next_move_one_shoot_7_2(self):
         return
-        mcts = MonteCarloTreeSearch(timeout=4.3, size_board=7)
+        mcts = MonteCarloTreeSearch(timeout=4.8, size_board=7)
         board_2 = Board(np.array([
             [X_SQUARE, O_SQUARE, BLANK, BLANK, BLANK, BLANK, BLANK],
             [X_SQUARE, O_SQUARE, BLANK, BLANK, BLANK, BLANK, BLANK],
@@ -135,13 +123,13 @@ class TestMonteCarlo(unittest.TestCase):
         ])
         board = mcts.findNextMove(board_2, board_2.P1)
 
-        print("Final board : ")
-        board.print()
-
+        #print("Final board : ")
+        #board.print()
         self.assertTrue(np.array_equal(board.board, expected))
 
     def test_find_next_move_one_shoot_7_4(self):
-        mcts = MonteCarloTreeSearch(timeout=9, size_board=19)
+        return
+        mcts = MonteCarloTreeSearch(timeout=4.8, size_board=19)
         board_2 = Board(np.array([[B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
                                   [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
                                   [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
@@ -189,74 +177,74 @@ class TestMonteCarlo(unittest.TestCase):
         self.assertTrue(np.array_equal(board.board, expected))
 
     def test_find_next_move_one_shoot_7_3(self):
-        return
-        mcts = MonteCarloTreeSearch(timeout=10, size_board=19)
-        board_2 = Board(np.array([[B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
-                                  [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
-                                  [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
-                                  [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
-                                  [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
-                                  [B, B, B, B, B, O, B, B, B, B, B, B, B, B, B, B, B, B, B],
-                                  [B, B, B, B, B, O, O, B, B, B, B, B, B, B, B, B, B, B, B],
-                                  [B, B, B, B, B, O, X, O, B, B, B, B, B, B, B, B, B, B, B],
-                                  [B, B, B, B, B, X, X, X, O, B, B, B, B, B, B, B, B, B, B],
-                                  [B, B, B, B, B, O, X, X, X, B, B, B, B, B, B, B, B, B, B],
-                                  [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
-                                  [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
-                                  [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
-                                  [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
-                                  [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
-                                  [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
-                                  [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
-                                  [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
-                                  [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B], ]))
-        expected = np.array([
-            [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
-            [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
-            [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
-            [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
-            [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
-            [B, B, B, B, B, O, B, B, B, B, B, B, B, B, B, B, B, B, B],
-            [B, B, B, B, B, O, O, B, B, B, B, B, B, B, B, B, B, B, B],
-            [B, B, B, B, B, O, X, O, B, B, B, B, B, B, B, B, B, B, B],
-            [B, B, B, B, B, X, X, X, O, B, B, B, B, B, B, B, B, B, B],
-            [B, B, B, B, B, O, X, X, X, O, B, B, B, B, B, B, B, B, B],
-            [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
-            [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
-            [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
-            [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
-            [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
-            [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
-            [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
-            [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
-            [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
-        ])
-        expected_2 = np.array([
-            [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
-            [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
-            [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
-            [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
-            [B, B, B, B, O, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
-            [B, B, B, B, B, O, B, B, B, B, B, B, B, B, B, B, B, B, B],
-            [B, B, B, B, B, O, O, B, B, B, B, B, B, B, B, B, B, B, B],
-            [B, B, B, B, B, O, X, O, B, B, B, B, B, B, B, B, B, B, B],
-            [B, B, B, B, B, X, X, X, O, B, B, B, B, B, B, B, B, B, B],
-            [B, B, B, B, B, O, X, X, X, B, B, B, B, B, B, B, B, B, B],
-            [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
-            [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
-            [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
-            [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
-            [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
-            [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
-            [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
-            [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
-            [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
-        ])
-        board = mcts.findNextMove(board_2, board_2.P1)
+        while True:
+            mcts = MonteCarloTreeSearch(timeout=4.8, size_board=19)
+            board_2 = Board(np.array([[B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
+                                      [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
+                                      [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
+                                      [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
+                                      [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
+                                      [B, B, B, B, B, O, B, B, B, B, B, B, B, B, B, B, B, B, B],
+                                      [B, B, B, B, B, O, O, B, B, B, B, B, B, B, B, B, B, B, B],
+                                      [B, B, B, B, B, O, X, O, B, B, B, B, B, B, B, B, B, B, B],
+                                      [B, B, B, B, B, X, X, X, O, B, B, B, B, B, B, B, B, B, B],
+                                      [B, B, B, B, B, O, X, X, X, B, B, B, B, B, B, B, B, B, B],
+                                      [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
+                                      [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
+                                      [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
+                                      [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
+                                      [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
+                                      [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
+                                      [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
+                                      [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
+                                      [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B], ]))
+            expected = np.array([
+                [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
+                [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
+                [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
+                [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
+                [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
+                [B, B, B, B, B, O, B, B, B, B, B, B, B, B, B, B, B, B, B],
+                [B, B, B, B, B, O, O, B, B, B, B, B, B, B, B, B, B, B, B],
+                [B, B, B, B, B, O, X, O, B, B, B, B, B, B, B, B, B, B, B],
+                [B, B, B, B, B, X, X, X, O, B, B, B, B, B, B, B, B, B, B],
+                [B, B, B, B, B, O, X, X, X, O, B, B, B, B, B, B, B, B, B],
+                [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
+                [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
+                [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
+                [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
+                [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
+                [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
+                [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
+                [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
+                [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
+            ])
+            expected_2 = np.array([
+                [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
+                [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
+                [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
+                [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
+                [B, B, B, B, O, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
+                [B, B, B, B, B, O, B, B, B, B, B, B, B, B, B, B, B, B, B],
+                [B, B, B, B, B, O, O, B, B, B, B, B, B, B, B, B, B, B, B],
+                [B, B, B, B, B, O, X, O, B, B, B, B, B, B, B, B, B, B, B],
+                [B, B, B, B, B, X, X, X, O, B, B, B, B, B, B, B, B, B, B],
+                [B, B, B, B, B, O, X, X, X, B, B, B, B, B, B, B, B, B, B],
+                [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
+                [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
+                [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
+                [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
+                [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
+                [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
+                [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
+                [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
+                [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
+            ])
+            board = mcts.findNextMove(board_2, board_2.P1)
 
-        print("Final board : Lastest move : ", board.lastest_move.to_string())
-        board.print()
-        self.assertTrue(np.array_equal(board.board, expected) or np.array_equal(board.board, expected_2))
+            print("Final board : Lastest move : ", board.lastest_move.to_string())
+            board.print()
+            self.assertTrue(np.array_equal(board.board, expected) or np.array_equal(board.board, expected_2))
 
     def test_find_next_move(self):
         # computer vs computer

@@ -16,8 +16,6 @@ class Tnode:
 
     def get_random_child_node(self):
         # Game specific choice. Hum, not so random after all?
-        print("who is the parant")
-        self.state.board.print()
         return random.choice(self.childs)
         while True:
             c = random.choice(self.childs)
