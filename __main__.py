@@ -40,7 +40,7 @@ def main():
                 decision = "ERROR"
             finally:
                 if decision:
-                    print(decision, end="\r\n")
+                    print(decision, end="\n")
     return 0
 
 
