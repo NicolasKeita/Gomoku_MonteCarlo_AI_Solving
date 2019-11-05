@@ -15,6 +15,7 @@ NAME	=	pbrain-gomoku-ai
 
 all	:
 	cp __main__.py $(NAME)
+	chmod 777 ${NAME}
 
 tests_run :
 	python3 -m unittest discover
