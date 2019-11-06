@@ -1,0 +1,16 @@
+UNDEFINED = "Undefined"
+BLANK = 0
+B = BLANK
+X_SQUARE = 2
+X = X_SQUARE
+O_SQUARE = 1
+O = O_SQUARE
+WIN_CONDITION = 5  # how many coins in a row are needed in order to win
+IN_PROGRESS = -1
+DRAW = 0
+P1 = 1
+P2 = 2
+INFINITY = 99990
+WIN_SCORE = 10
+X_WINS = 2
+O_WINS = 1
