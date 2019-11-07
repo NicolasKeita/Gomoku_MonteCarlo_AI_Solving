@@ -10,8 +10,8 @@ import sys
 
 class Brain:
     def __init__(self):
-        self.map_size = 0
-        self.board = None
+        self.map_size = 19
+        self.board = np.zeros(shape=(self.map_size, self.map_size))
         self.in_board = False
         self.started = False
 
