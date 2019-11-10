@@ -65,6 +65,8 @@ class Brain:
             elif stdin_input[0] == "ABOUT":
                 return 'name="EPIC BRAIN", version = "1.0", authors="Nicolas Keita" and "Warren OConnor", ' \
                        'country="France" '
+            elif stdin_input[0] == "INFO":
+                return ""
             else:
                 return "ERROR"
         else:
