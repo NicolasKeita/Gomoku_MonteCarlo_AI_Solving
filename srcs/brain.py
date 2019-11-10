@@ -3,9 +3,7 @@ import math
 from srcs.Board import Board
 from srcs.MonteCarlo import MonteCarloTreeSearch
 import numpy as np
-import time
 from srcs.macros import *
-import sys
 
 
 class Brain:
@@ -54,6 +52,7 @@ class Brain:
                 pos = str(math.floor(self.map_size / 2)) + "," + \
                       str(math.floor(self.map_size / 2))
                 self._add_char_to_board(O_SQUARE, pos)
+                self.started = True
                 return pos
             elif stdin_input[0] == "BOARD":
                 if not self.started:
