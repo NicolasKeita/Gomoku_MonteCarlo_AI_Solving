@@ -20,6 +20,7 @@ class Brain:
     def _board_fill(self, stdin_input):
         if stdin_input[0] == "DONE":
             self.in_board = False
+            Board(self.board).print()
             result = self._solve(self.board)
             self._add_char_to_board(O_SQUARE, result)
             return result
@@ -85,8 +86,8 @@ class Brain:
                     break
                 try:
                     if int(stdin_input[2]) == 1:
-                        self.board[int(stdin_input[0])][int(stdin_input[1])] = 'O'
+                        self.board[int(stdin_input[1])][int(stdin_input[0])] = 'O'
                     elif int(stdin_input[2]) == 2:
-                        self.board[int(stdin_input[0])][int(stdin_input[1])] = 'X'
+                        self.board[int(stdin_input[1])][int(stdin_input[0])] = 'X'
                 except (ValueError, IndexError):
                     print("ERROR")
