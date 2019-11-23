@@ -7,6 +7,11 @@ class Position:
         self.x = x
         self.y = y
 
+    def __eq__(self, other):
+        if not isinstance(other, Position):
+            return NotImplemented
+        return self.x == other.x and self.y == other.y
+
     def to_string(self):
         return str(self.x) + "," + str(self.y)
 

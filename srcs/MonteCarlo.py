@@ -1,14 +1,14 @@
-from srcs.UCT import UCT
 import random
-from srcs.Tnode import Tnode
-from srcs.macros import *
-import numpy as np
 import time
+
 from srcs.State import State
+from srcs.Tnode import Tnode
+from srcs.UCT import UCT
+from srcs.macros import *
 
 
 class MonteCarloTreeSearch:
-    def __init__(self, timeout=4.8, size_board=19):
+    def __init__(self, timeout=4.3, size_board=19):
         self.level = None
         self.opponent = None
         random.seed()
@@ -58,11 +58,14 @@ class MonteCarloTreeSearch:
         return node
 
     def _simulate_random_playout(self, node_to_explore):
-        node_being_simulated = node_to_explore.copy()
-        board_status = node_being_simulated.state.board.check_status()
+        board_status = node_to_explore.state.board.check_status()
         if board_status == self.opponent:
-            node_being_simulated.parent.state.win_score = -INFINITY
+            for child in self.root_node.childs:
+                if child.state.board.lastest_move == node_to_explore.state.board.lastest_move:
+                    child.state.add_score(WIN_SCORE)
+                    break
             return board_status
+        node_being_simulated = node_to_explore.copy()
         while board_status == IN_PROGRESS:
             node_being_simulated.state.toggle_player()
             node_being_simulated.state.random_play()
