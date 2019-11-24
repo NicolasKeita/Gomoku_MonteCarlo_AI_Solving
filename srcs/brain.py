@@ -20,7 +20,7 @@ class Brain:
     def _board_fill(self, stdin_input):
         if stdin_input[0] == "DONE":
             self.in_board = False
-            Board(self.board).print()
+            #Board(self.board).print()
             result = self._solve(self.board)
             self._add_char_to_board(O_SQUARE, result)
             return result
