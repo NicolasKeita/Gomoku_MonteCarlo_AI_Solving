@@ -20,18 +20,16 @@ class Brain:
     def _board_fill(self, stdin_input):
         if stdin_input[0] == "DONE":
             self.in_board = False
-            #Board(self.board).print()
             result = self._solve(self.board)
             self._add_char_to_board(O_SQUARE, result)
             return result
         else:
             new_input = stdin_input[0].split(',')
-            if int(new_input[2]) == 1:
-                self.board[int(new_input[0])][int(new_input[1])] = O_SQUARE
-                return None
-            elif int(new_input[2]) == 2:
-                self.board[int(new_input[0])][int(new_input[1])] = X_SQUARE
-                return None
+            x = int(new_input[0])
+            y = int(new_input[1])
+            player = int(new_input[2])
+            self.board[y][x] = player
+            return None
 
     def think(self, stdin_input):
         if not self.in_board:
@@ -73,10 +71,11 @@ class Brain:
             return self._board_fill(stdin_input)
 
     def _solve(self, board):
-        mcts = MonteCarloTreeSearch(timeout=4.3, size_board=len(board))
+        mcts = MonteCarloTreeSearch(size_board=len(board))
         new_board = mcts.findNextMove(Board(board), P1)
         return new_board.lastest_move.to_string()
 
+    """
     def board_loop(self):
         queue = Queue()
         while True:
@@ -91,3 +90,4 @@ class Brain:
                         self.board[int(stdin_input[1])][int(stdin_input[0])] = 'X'
                 except (ValueError, IndexError):
                     print("ERROR")
+    """
