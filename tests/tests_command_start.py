@@ -11,7 +11,7 @@ class TestCommandStart(unittest.TestCase):
     def test_command_start(self):
         brain = Brain()
         decision = brain.think("START 19".split(' '))
-        for row in brain.board:
-            for number in row:
-                self.assertTrue(number == BLANK, "Board is not empty at the beginning")
+        for y in range(19):
+            for x in range(19):
+                self.assertTrue(brain.board[y][x] == BLANK, "Board is not empty at the beginning")
         self.assertTrue(decision == "OK")
