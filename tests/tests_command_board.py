@@ -49,7 +49,6 @@ class TestCommandBoard(unittest.TestCase):
                     continue
                 self.assertTrue(brain.board[y][x] == BLANK, "Board command added extra numbers")
 
-    #def test_command_board_fill_entire_board_then_test(self):
 
 if __name__ == '__main__':
     unittest.main()

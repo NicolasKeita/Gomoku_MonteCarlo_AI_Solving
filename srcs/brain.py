@@ -1,8 +1,7 @@
-from queue import Queue
 import math
+import numpy as np
 from srcs.Board import Board
 from srcs.MonteCarlo import MonteCarloTreeSearch
-import numpy as np
 from srcs.macros import *
 
 
@@ -41,11 +40,10 @@ class Brain:
                 self.started = True
                 return "OK"
             elif stdin_input[0] == "TURN":
-                #start = time.time()
                 self._add_char_to_board(X_SQUARE, stdin_input[1])
                 result = self._solve(self.board)
                 self._add_char_to_board(O_SQUARE, result)
-                #print("Temps pour resoudre : ", time.time() - start, file=sys.stderr)
+                print("Temps pour resoudre : ", time.time() - start, file=sys.stderr)
                 return result
             elif stdin_input[0] == "BEGIN":
                 pos = str(math.floor(self.map_size / 2)) + "," + \
@@ -74,20 +72,3 @@ class Brain:
         mcts = MonteCarloTreeSearch(size_board=len(board))
         new_board = mcts.findNextMove(Board(board), P1)
         return new_board.lastest_move.to_string()
-
-    """
-    def board_loop(self):
-        queue = Queue()
-        while True:
-            if not queue.empty():
-                stdin_input = queue.get()
-                if stdin_input[0] == "DONE":
-                    break
-                try:
-                    if int(stdin_input[2]) == 1:
-                        self.board[int(stdin_input[1])][int(stdin_input[0])] = 'O'
-                    elif int(stdin_input[2]) == 2:
-                        self.board[int(stdin_input[1])][int(stdin_input[0])] = 'X'
-                except (ValueError, IndexError):
-                    print("ERROR")
-    """

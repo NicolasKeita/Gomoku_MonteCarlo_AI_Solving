@@ -38,7 +38,6 @@ class Board:
         symbol = O_SQUARE if player == self.P1 else X_SQUARE
         self.board[p.y][p.x] = symbol
         self.lastest_move = Position(p.y, p.x)
-        # print("pos = x", p.x, "y = ", p.y)
         self._add_pos_to_the_lastest_move(p)
         #self._update_empty_positions()
 
@@ -173,56 +172,82 @@ class Board:
         return False
 
     def _add_pos_to_the_lastest_move(self, p):
-        x = p.x
-        y = p.y
+        #x = p.x
+        #y = p.y
+
+        for y in range(p.y - 2, p.y + 3):
+            for x in range(p.x - 2, p.x + 3):
+                try:
+                    if y != p.y and x != p.x and self.board[y][x] == BLANK:
+                        self.empty_pos.append(Position(y=y, x=x))
+                except IndexError:
+                    pass
+        """
         if x + 1 < self.size:
             if self.board[y][x + 1] == BLANK:
                 self.empty_pos.append(Position(y=y, x=x + 1))
+                return
         if x - 1 < self.size and x - 1 >= 0:
             if self.board[y][x - 1] == BLANK:
                 self.empty_pos.append(Position(y=y, x=x - 1))
+                return
         if x + 2 < self.size:
             if self.board[y][x + 2] == BLANK:
                 self.empty_pos.append(Position(y=y, x=x + 2))
+                return
         if x - 2 < self.size and x - 2 >= 0:
             if self.board[y][x - 2] == BLANK:
                 self.empty_pos.append(Position(y=y, x=x - 2))
+                return
         if y + 1 < self.size:
             if self.board[y + 1][x] == BLANK:
                 self.empty_pos.append(Position(y=y + 1, x=x))
+                return
         if y - 1 < self.size and y - 1 >= 0:
             if self.board[y - 1][x] == BLANK:
                 self.empty_pos.append(Position(y=y - 1, x=x))
+                return
         if y + 2 < self.size:
             if self.board[y + 2][x] == BLANK:
                 self.empty_pos.append(Position(y=y + 2, x=x))
+                return
         if y - 2 < self.size and y - 2 >= 0:
             if self.board[y - 2][x] == BLANK:
                 self.empty_pos.append(Position(y=y - 2, x=x))
+                return
         if x + 1 < self.size and y + 1 < self.size:
             if self.board[y + 1][x + 1] == BLANK:
                 self.empty_pos.append(Position(y=y + 1, x=x + 1))
+                return
         if x + 2 < self.size and y + 2 < self.size:
             if self.board[y + 2][x + 2] == BLANK:
                 self.empty_pos.append(Position(y=y + 2, x=x + 2))
+                return
         if x - 1 < self.size and y - 1 < self.size and x - 1 >= 0 and y - 1 >= 0:
             if self.board[y - 1][x - 1] == BLANK:
                 self.empty_pos.append(Position(y=y - 1, x=x - 1))
+                return
         if x - 2 < self.size and y - 2 < self.size and x - 2 >= 0 and y - 2 >= 0:
             if self.board[y - 2][x - 2] == BLANK:
                 self.empty_pos.append(Position(y=y - 2, x=x - 2))
+                return
         if x + 1 < self.size and y - 1 < self.size and y - 1 >= 0:
             if self.board[y - 1][x + 1] == BLANK:
                 self.empty_pos.append(Position(y=y - 1, x=x + 1))
+                return
         if x + 2 < self.size and y - 2 < self.size and y - 2 >= 0:
             if self.board[y - 2][x + 2] == BLANK:
                 self.empty_pos.append(Position(y=y - 2, x=x + 2))
+                return
         if x - 1 < self.size and y + 1 < self.size and x - 1 >= 0:
             if self.board[y + 1][x - 1] == BLANK:
                 self.empty_pos.append(Position(y=y + 1, x=x - 1))
+                return
         if x - 2 < self.size and y + 2 < self.size:
             if self.board[y + 2][x - 2] == BLANK:
                 self.empty_pos.append(Position(y=y + 2, x=x - 2))
+                return
+        """
 
     def get_runs(self, raw_grid, run_size):
         # Offsets to find the previous cell in all four directions.

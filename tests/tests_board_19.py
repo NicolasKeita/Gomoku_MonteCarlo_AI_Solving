@@ -7,7 +7,6 @@ import numpy as np
 
 class TestMonteCarlo(unittest.TestCase):
     def test_find_next_move_one_shoot_7_4(self):
-        return
         mcts = MonteCarloTreeSearch(timeout=4.3, size_board=19)
         board_2 = Board(np.array([[B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
                                   [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
@@ -56,7 +55,6 @@ class TestMonteCarlo(unittest.TestCase):
         self.assertTrue(np.array_equal(board.board, expected))
 
     def test_find_next_move_one_shoot_7_3(self):
-        return
         mcts = MonteCarloTreeSearch(timeout=4.3, size_board=19)
         board_2 = Board(np.array([[B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],
                                   [B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B],

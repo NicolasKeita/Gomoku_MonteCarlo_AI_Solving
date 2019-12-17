@@ -8,7 +8,7 @@ from srcs.macros import *
 
 
 class MonteCarloTreeSearch:
-    def __init__(self, timeout=4.3, size_board=19):
+    def __init__(self, timeout=4.7, size_board=19):
         self.level = None
         self.opponent = None
         random.seed()
@@ -16,6 +16,7 @@ class MonteCarloTreeSearch:
         self.visit_board = [[0] * size_board for _ in range(size_board)]
         self.score_board = [[0] * size_board for _ in range(size_board)]
         self.root_node = None
+        self.debug_counter = 0
 
     def execute_the_four_steps(self):
         promising_node = self._select_promising_node(self.root_node)
@@ -26,16 +27,27 @@ class MonteCarloTreeSearch:
             node_to_explore = promising_node.get_random_child_node()
         playout_result = self._simulate_random_playout(node_to_explore)
         self._back_propagation(node_to_explore, playout_result)
+        if self.debug_counter == 2:
+            pass
+            #exit(34)
+        self.debug_counter += 1
 
     def findNextMove(self, board, player_no):
         self.opponent = 3 - player_no
         self.root_node = Tnode(State(board=board))
         self.root_node.state.player_no = self.opponent
 
+        #import time
+        #import sys
+        #start_2 = time.time()
+
         start = time.time()
         while time.time() - start < self.timeout:
             self.execute_the_four_steps()
         winner_node = self.root_node.get_child_with_max_score()
+
+        #print("Temps pour resoudre : ", time.time() - start_2, file=sys.stderr)
+
         return winner_node.state.board
 
     def _expand_node(self, promising_node):
@@ -77,6 +89,7 @@ class MonteCarloTreeSearch:
         while temp_node is not None:
             temp_node.state.visit_count += 1
             #self._debug_visit(temp_node)
+            # print("player_no_temp_node : ", temp_node.state.player_no, " player no : ", player_no)
             if temp_node.state.player_no == player_no:
                 #self._debug_score(temp_node)
                 temp_node.state.add_score(WIN_SCORE)
@@ -85,7 +98,7 @@ class MonteCarloTreeSearch:
     def _debug_visit(self, node):
         last_move = node.state.board.lastest_move
         if not last_move:
-            #print("main parent!!Cancel")
+            # print("main parent!!Cancel")
             return
         self.visit_board[last_move.y][last_move.x] += 1
         print("Debug visit", last_move.to_string())
