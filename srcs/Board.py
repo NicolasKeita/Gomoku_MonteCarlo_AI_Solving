@@ -69,112 +69,17 @@ class Board:
         return True
 
     def is_there_coin_around_last_move(self, y, x):
-        """
-        if x + 1 < self.size:
-            if self.board[y][x + 1] == BLANK:
-                return True
-        if x - 1 < self.size and x - 1 >= 0:
-            if self.board[y][x - 1] > BLANK:
-                return True
-        if x + 2 < self.size:
-            if self.board[y][x + 2] > BLANK:
-                return True
-        if x - 2 < self.size and x - 2 >= 0:
-            if self.board[y][x - 2] > BLANK:
-                return True
-        if y + 1 < self.size:
-            if self.board[y + 1][x] > BLANK:
-                return True
-        if y - 1 < self.size and y - 1 >= 0:
-            if self.board[y - 1][x] > BLANK:
-                return True
-        if y + 2 < self.size:
-            if self.board[y + 2][x] > BLANK:
-                return True
-        if y - 2 < self.size and y - 2 >= 0:
-            if self.board[y - 2][x] > BLANK:
-                return True
-        if x + 1 < self.size and y + 1 < self.size:
-            if self.board[y + 1][x + 1] > BLANK:
-                return True
-        if x + 2 < self.size and y + 2 < self.size:
-            if self.board[y + 2][x + 2] > BLANK:
-                return True
-        if x - 1 < self.size and y - 1 < self.size and x - 1 >= 0 and y - 1 >= 0:
-            if self.board[y - 1][x - 1] > BLANK:
-                return True
-        if x - 2 < self.size and y - 2 < self.size and x - 2 >= 0 and y - 2 >= 0:
-            if self.board[y - 2][x - 2] > BLANK:
-                return True
-        if x + 1 < self.size and y - 1 < self.size and y - 1 >= 0:
-            if self.board[y - 1][x + 1] > BLANK:
-                return True
-        if x + 2 < self.size and y - 2 < self.size and y - 2 >= 0:
-            if self.board[y - 2][x + 2] > BLANK:
-                return True
-        if x - 1 < self.size and y + 1 < self.size and x - 1 >= 0:
-            if self.board[y + 1][x - 1] > BLANK:
-                return True
-        if x - 2 < self.size and y + 2 < self.size:
-            if self.board[y + 2][x - 2] > BLANK:
-                return True
-        return False
-        """
-
-        if x + 1 < self.size:
-            if self.board[y][x + 1] > BLANK:
-                return True
-        if x - 1 < self.size:
-            if self.board[y][x - 1] > BLANK:
-                return True
-        if x + 2 < self.size:
-            if self.board[y][x + 2] > BLANK:
-                return True
-        if x - 2 < self.size:
-            if self.board[y][x - 2] > BLANK:
-                return True
-        if y + 1 < self.size:
-            if self.board[y + 1][x] > BLANK:
-                return True
-        if y - 1 < self.size:
-            if self.board[y - 1][x] > BLANK:
-                return True
-        if y + 2 < self.size:
-            if self.board[y + 2][x] > BLANK:
-                return True
-        if y - 2 < self.size:
-            if self.board[y - 2][x] > BLANK:
-                return True
-        if x + 1 < self.size and y + 1 < self.size:
-            if self.board[y + 1][x + 1] > BLANK:
-                return True
-        if x + 2 < self.size and y + 2 < self.size:
-            if self.board[y + 2][x + 2] > BLANK:
-                return True
-        if x - 1 < self.size and y - 1 < self.size:
-            if self.board[y - 1][x - 1] > BLANK:
-                return True
-        if x - 2 < self.size and y - 2 < self.size:
-            if self.board[y - 2][x - 2] > BLANK:
-                return True
-        if x + 1 < self.size and y - 1 < self.size:
-            if self.board[y - 1][x + 1] > BLANK:
-                return True
-        if x + 2 < self.size and y - 2 < self.size:
-            if self.board[y - 2][x + 2] > BLANK:
-                return True
-        if x - 1 < self.size and y + 1 < self.size:
-            if self.board[y + 1][x - 1] > BLANK:
-                return True
-        if x - 2 < self.size and y + 2 < self.size:
-            if self.board[y + 2][x - 2] > BLANK:
-                return True
+        for y_tmp in range(y - 2, y + 3):
+            for x_tmp in range(x - 2, x + 3):
+                try:
+                    if self.board[y_tmp][x_tmp] > BLANK:
+                        return True
+                    pass
+                except IndexError:
+                    pass
         return False
 
     def _add_pos_to_the_lastest_move(self, p):
-        #x = p.x
-        #y = p.y
-
         for y in range(p.y - 2, p.y + 3):
             for x in range(p.x - 2, p.x + 3):
                 try:
@@ -182,72 +87,6 @@ class Board:
                         self.empty_pos.append(Position(y=y, x=x))
                 except IndexError:
                     pass
-        """
-        if x + 1 < self.size:
-            if self.board[y][x + 1] == BLANK:
-                self.empty_pos.append(Position(y=y, x=x + 1))
-                return
-        if x - 1 < self.size and x - 1 >= 0:
-            if self.board[y][x - 1] == BLANK:
-                self.empty_pos.append(Position(y=y, x=x - 1))
-                return
-        if x + 2 < self.size:
-            if self.board[y][x + 2] == BLANK:
-                self.empty_pos.append(Position(y=y, x=x + 2))
-                return
-        if x - 2 < self.size and x - 2 >= 0:
-            if self.board[y][x - 2] == BLANK:
-                self.empty_pos.append(Position(y=y, x=x - 2))
-                return
-        if y + 1 < self.size:
-            if self.board[y + 1][x] == BLANK:
-                self.empty_pos.append(Position(y=y + 1, x=x))
-                return
-        if y - 1 < self.size and y - 1 >= 0:
-            if self.board[y - 1][x] == BLANK:
-                self.empty_pos.append(Position(y=y - 1, x=x))
-                return
-        if y + 2 < self.size:
-            if self.board[y + 2][x] == BLANK:
-                self.empty_pos.append(Position(y=y + 2, x=x))
-                return
-        if y - 2 < self.size and y - 2 >= 0:
-            if self.board[y - 2][x] == BLANK:
-                self.empty_pos.append(Position(y=y - 2, x=x))
-                return
-        if x + 1 < self.size and y + 1 < self.size:
-            if self.board[y + 1][x + 1] == BLANK:
-                self.empty_pos.append(Position(y=y + 1, x=x + 1))
-                return
-        if x + 2 < self.size and y + 2 < self.size:
-            if self.board[y + 2][x + 2] == BLANK:
-                self.empty_pos.append(Position(y=y + 2, x=x + 2))
-                return
-        if x - 1 < self.size and y - 1 < self.size and x - 1 >= 0 and y - 1 >= 0:
-            if self.board[y - 1][x - 1] == BLANK:
-                self.empty_pos.append(Position(y=y - 1, x=x - 1))
-                return
-        if x - 2 < self.size and y - 2 < self.size and x - 2 >= 0 and y - 2 >= 0:
-            if self.board[y - 2][x - 2] == BLANK:
-                self.empty_pos.append(Position(y=y - 2, x=x - 2))
-                return
-        if x + 1 < self.size and y - 1 < self.size and y - 1 >= 0:
-            if self.board[y - 1][x + 1] == BLANK:
-                self.empty_pos.append(Position(y=y - 1, x=x + 1))
-                return
-        if x + 2 < self.size and y - 2 < self.size and y - 2 >= 0:
-            if self.board[y - 2][x + 2] == BLANK:
-                self.empty_pos.append(Position(y=y - 2, x=x + 2))
-                return
-        if x - 1 < self.size and y + 1 < self.size and x - 1 >= 0:
-            if self.board[y + 1][x - 1] == BLANK:
-                self.empty_pos.append(Position(y=y + 1, x=x - 1))
-                return
-        if x - 2 < self.size and y + 2 < self.size:
-            if self.board[y + 2][x - 2] == BLANK:
-                self.empty_pos.append(Position(y=y + 2, x=x - 2))
-                return
-        """
 
     def get_runs(self, raw_grid, run_size):
         # Offsets to find the previous cell in all four directions.

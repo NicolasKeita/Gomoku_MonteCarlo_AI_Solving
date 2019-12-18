@@ -8,7 +8,7 @@ from srcs.macros import *
 
 
 class MonteCarloTreeSearch:
-    def __init__(self, timeout=4.7, size_board=19):
+    def __init__(self, timeout=4.75, size_board=19):
         self.level = None
         self.opponent = None
         random.seed()
@@ -27,10 +27,10 @@ class MonteCarloTreeSearch:
             node_to_explore = promising_node.get_random_child_node()
         playout_result = self._simulate_random_playout(node_to_explore)
         self._back_propagation(node_to_explore, playout_result)
-        if self.debug_counter == 2:
-            pass
+        #if self.debug_counter == 2:
+        #    pass
             #exit(34)
-        self.debug_counter += 1
+        #self.debug_counter += 1
 
     def findNextMove(self, board, player_no):
         self.opponent = 3 - player_no
