@@ -9,7 +9,7 @@ from srcs.brain import Brain
 REPEAT_TESTS = 5
 
 
-class TestCommandBoard(unittest.TestCase):
+class TestDefense(unittest.TestCase):
     def test_defense_diagonal_up_left_6x6(self):
         # Defense diagonal up left
         i = 0
@@ -49,10 +49,9 @@ class TestCommandBoard(unittest.TestCase):
             i += 1
 
     def test_defense_diagonal_up_left(self):
-        return
         # Defense diagonal up left
         i = 0
-        while i < 5:
+        while i < REPEAT_TESTS:
             brain = Brain()
             brain.think("START 19".split(' '))
             brain.think("BOARD".split(' '))
@@ -66,14 +65,8 @@ class TestCommandBoard(unittest.TestCase):
             brain.think("1,2,2".split(' '))
             brain.think("5,6,1".split(' '))
             brain.think("4,0,2".split(' '))
-            print("DEBUT")
-            Board(brain.board).print()
             decision = brain.think("DONE".split(' '))
-            print(decision)
-            print(decision)
-            print(decision)
-            Board(brain.board).print()
-            self.assertTrue(decision == "6,7")
+            self.assertTrue(decision == "0,1")
             i += 1
 
 

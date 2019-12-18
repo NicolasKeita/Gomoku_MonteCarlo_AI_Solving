@@ -27,10 +27,10 @@ class MonteCarloTreeSearch:
             node_to_explore = promising_node.get_random_child_node()
         playout_result = self._simulate_random_playout(node_to_explore)
         self._back_propagation(node_to_explore, playout_result)
-        #if self.debug_counter == 2:
-        #    pass
+        if self.debug_counter == 2:
+            pass
             #exit(34)
-        #self.debug_counter += 1
+        self.debug_counter += 1
 
     def findNextMove(self, board, player_no):
         self.opponent = 3 - player_no
@@ -71,10 +71,17 @@ class MonteCarloTreeSearch:
 
     def _simulate_random_playout(self, node_to_explore):
         board_status = node_to_explore.state.board.check_status()
+
+        # if board_status != -1:
+            # print("Board display !!!!!!!!")
+            # node_to_explore.state.board.print()
+            # print("Board_status : ", board_status, "L opponent : ", self.opponent)
+
         if board_status == self.opponent:
             for child in self.root_node.childs:
                 if child.state.board.lastest_move == node_to_explore.state.board.lastest_move:
-                    child.state.add_score(WIN_SCORE)
+                    child.state.add_score(WIN_SCORE * 1000)
+                    child.state.visit_count += 1
                     break
             return board_status
         node_being_simulated = node_to_explore.copy()
@@ -91,7 +98,7 @@ class MonteCarloTreeSearch:
             #self._debug_visit(temp_node)
             # print("player_no_temp_node : ", temp_node.state.player_no, " player no : ", player_no)
             if temp_node.state.player_no == player_no:
-                #self._debug_score(temp_node)
+                # self._debug_score(temp_node)
                 temp_node.state.add_score(WIN_SCORE)
             temp_node = temp_node.parent
 
@@ -101,13 +108,13 @@ class MonteCarloTreeSearch:
             # print("main parent!!Cancel")
             return
         self.visit_board[last_move.y][last_move.x] += 1
-        print("Debug visit", last_move.to_string())
+        print("Debug visit. Last move : ", last_move.to_string())
         for row in self.visit_board:
             print(row)
         print("\n")
 
     def _debug_score(self, node):
-        print("Debug score")
+        print("Debug score. Last move : ", node.state.board.last_move.to_string())
         last_move = node.state.board.lastest_move
         if not last_move:
             return
