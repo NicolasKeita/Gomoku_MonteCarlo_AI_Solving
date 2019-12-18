@@ -10,7 +10,7 @@ REPEAT_TESTS = 5
 
 
 class TestCommandBoard(unittest.TestCase):
-    def test_defense_diagonal_up_left_5x5(self):
+    def test_defense_diagonal_up_left_6x6(self):
         # Defense diagonal up left
         i = 0
         while i < REPEAT_TESTS:
