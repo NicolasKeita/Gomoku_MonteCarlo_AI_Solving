@@ -16,7 +16,6 @@ class MonteCarloTreeSearch:
         self.visit_board = [[0] * size_board for _ in range(size_board)]
         self.score_board = [[0] * size_board for _ in range(size_board)]
         self.root_node = None
-        self.debug_counter = 0
 
     def execute_the_four_steps(self):
         promising_node = self._select_promising_node(self.root_node)
@@ -27,10 +26,6 @@ class MonteCarloTreeSearch:
             node_to_explore = promising_node.get_random_child_node()
         playout_result = self._simulate_random_playout(node_to_explore)
         self._back_propagation(node_to_explore, playout_result)
-        if self.debug_counter == 2:
-            pass
-            #exit(34)
-        self.debug_counter += 1
 
     def findNextMove(self, board, player_no):
         self.opponent = 3 - player_no
@@ -65,8 +60,8 @@ class MonteCarloTreeSearch:
         while len(node.childs) != 0:
             node = UCT.find_best_node_with_uct(node)
             depth += 1
-            if depth == 1:
-                return node
+            #if depth == 1:
+            #    return node
         return node
 
     def _simulate_random_playout(self, node_to_explore):
@@ -95,7 +90,7 @@ class MonteCarloTreeSearch:
         temp_node = node_to_explore
         while temp_node is not None:
             temp_node.state.visit_count += 1
-            #self._debug_visit(temp_node)
+            # self._debug_visit(temp_node)
             # print("player_no_temp_node : ", temp_node.state.player_no, " player no : ", player_no)
             if temp_node.state.player_no == player_no:
                 # self._debug_score(temp_node)

@@ -8,7 +8,7 @@ class Tnode:
         self.childs = []
 
     def get_child_with_max_score(self):
-        #self._debug_display_all_scores()
+        # self._debug_display_all_scores()
         def func(x): return x.state.visit_count
         return max(self.childs, key=func)
 

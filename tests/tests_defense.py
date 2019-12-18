@@ -48,6 +48,23 @@ class TestDefense(unittest.TestCase):
             self.assertTrue(decision == "1,4", "Decision : " + decision)
             i += 1
 
+    def test_defense_horizontal_right(self):
+        # Defense horizontal_right
+        for i in range(0, REPEAT_TESTS):
+            brain = Brain()
+            brain.think("START 19".split(' '))
+            brain.think("BOARD".split(' '))
+            brain.think("2,5,1".split(' '))
+            brain.think("0,1,2".split(' '))
+            brain.think("3,4,1".split(' '))
+            brain.think("1,1,2".split(' '))
+            brain.think("2,3,1".split(' '))
+            brain.think("2,1,2".split(' '))
+            brain.think("2,2,1".split(' '))
+            brain.think("3,1,2".split(' '))
+            decision = brain.think("DONE".split(' '))
+            self.assertTrue(decision == "4,1", "Decision : " + decision)
+
     def test_defense_diagonal_up_left(self):
         # Defense diagonal up left
         i = 0

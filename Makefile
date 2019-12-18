@@ -17,7 +17,7 @@ all	:
 	cp __main__.py $(NAME)
 
 tests_run :
-	python3 -m unittest discover
+	python3 -m unittest discover --failfast
 
 fclean	:	clean
 	$(RM) $(NAME)
