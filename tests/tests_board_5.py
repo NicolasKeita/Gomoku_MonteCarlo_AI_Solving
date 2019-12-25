@@ -8,8 +8,8 @@ from copy import deepcopy
 
 class TestMonteCarlo_board_5(unittest.TestCase):
     def test_find_next_move_one_shoot_5_1(self):
-        return
-        mcts = MonteCarloTreeSearch(timeout=3, size_board=5)
+        # Attack
+        mcts = MonteCarloTreeSearch(size_board=5)
         board = Board(np.array([
             [O_SQUARE, X_SQUARE, BLANK, BLANK, BLANK],
             [BLANK, O_SQUARE, X_SQUARE, BLANK, BLANK],
@@ -30,8 +30,7 @@ class TestMonteCarlo_board_5(unittest.TestCase):
         self.assertTrue(np.array_equal(board.board, expected))
 
     def test_find_next_move_one_shoot_5_2(self):
-        return
-        mcts = MonteCarloTreeSearch(timeout=4.3, size_board=5)
+        mcts = MonteCarloTreeSearch(size_board=5)
         board = Board(np.array([
             [O_SQUARE, O_SQUARE, BLANK, BLANK, BLANK],
             [BLANK, X_SQUARE, X_SQUARE, BLANK, BLANK],
@@ -52,8 +51,8 @@ class TestMonteCarlo_board_5(unittest.TestCase):
         self.assertTrue(np.array_equal(board.board, expected))
 
     def test_find_next_move_one_shoot_5(self):
-        return
-        mcts = MonteCarloTreeSearch(timeout=4.3, size_board=5)
+        # Attack
+        mcts = MonteCarloTreeSearch(size_board=5)
         board = Board(two_dim_board=np.array([
             [X_SQUARE, O_SQUARE, BLANK, BLANK, BLANK],
             [X_SQUARE, O_SQUARE, BLANK, BLANK, BLANK],
@@ -74,9 +73,8 @@ class TestMonteCarlo_board_5(unittest.TestCase):
         self.assertTrue(np.array_equal(board.board, expected))
 
     def test_find_next_move_one_shoot_5_3(self):
-        return
         # Defense
-        mcts = MonteCarloTreeSearch(timeout=4.3, size_board=5)
+        mcts = MonteCarloTreeSearch(size_board=5)
         board = Board(two_dim_board=np.array([
             [X, O, B, B, B],
             [X, B, B, B, B],

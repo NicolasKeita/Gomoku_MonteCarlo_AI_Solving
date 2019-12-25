@@ -8,7 +8,7 @@ from srcs.macros import *
 
 
 class MonteCarloTreeSearch:
-    def __init__(self, timeout=4.75, size_board=19):
+    def __init__(self, timeout=8, size_board=19):
         self.level = None
         self.opponent = None
         random.seed()
@@ -75,7 +75,14 @@ class MonteCarloTreeSearch:
         if board_status == self.opponent:
             for child in self.root_node.childs:
                 if child.state.board.lastest_move == node_to_explore.state.board.lastest_move:
-                    child.state.add_score(WIN_SCORE * 1000)
+                    child.state.add_score(WIN_SCORE * 10)
+                    child.state.visit_count += 1
+                    break
+            return board_status
+        elif board_status == 3 - self.opponent:
+            for child in self.root_node.childs:
+                if child.state.board.lastest_move == node_to_explore.state.board.lastest_move:
+                    child.state.add_score(WIN_SCORE * 100)
                     child.state.visit_count += 1
                     break
             return board_status
